@@ -10,7 +10,7 @@ namespace DiffNum {
 	struct DiffVar {
 		using num_type = n_type;
 		DiffVar() {}
-		explicit DiffVar(const num_type value) : value(value) {}
+		DiffVar(const num_type value) : value(value) {}
 		explicit DiffVar(const size_t num_var) : gradient(num_var) {}
 		DiffVar(num_type value, size_t num_var) :value(value), gradient(num_var) {}
 		DiffVar(num_type value, std::vector<num_type> gradient) :value(value), gradient(gradient) {}
