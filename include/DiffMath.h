@@ -3,7 +3,7 @@
 
 #include <DiffVar.h>
 #include <math.h>
-#include <decl.h>
+#include <DiffBasic.h>
 
 namespace DiffNum {
 	static float Sqrt(const float& _X) { return sqrt(_X); }

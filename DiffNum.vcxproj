@@ -146,7 +146,8 @@
     <ClCompile Include="src\Tensor.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\decl.h" />
+    <ClInclude Include="include\DiffBasic.h" />
+    <ClInclude Include="include\DiffManager.h" />
     <ClInclude Include="include\DiffMath.h" />
     <ClInclude Include="include\DiffTensor.h" />
     <ClInclude Include="include\DiffVar.h" />

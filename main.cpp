@@ -2,6 +2,7 @@
 #include <iostream>
 #include <DiffMath.h>
 #include <Vec.h>
+#include <DiffManager.h>
 
 using namespace DiffNum;
 
@@ -36,6 +37,9 @@ int main()
     auto q = Vec<DiffDouble, 3>::dot(v1, v2);
 
     std::cout << q << std::endl;
+
+    // Example 3. Use the DiffManager to help you set up variables.
+    DiffManager<float> manager;
 
     return 0;
 }

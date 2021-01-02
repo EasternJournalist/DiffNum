@@ -3,7 +3,8 @@
 #include <array>
 #include <initializer_list>
 #include <ostream>
-#include <decl.h>
+
+#include <DiffBasic.h>
 #include <DiffMath.h>
 
 namespace DiffNum

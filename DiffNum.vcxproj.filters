@@ -41,7 +41,10 @@
     <ClInclude Include="include\Vec.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="include\decl.h">
+    <ClInclude Include="include\DiffManager.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\DiffBasic.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
