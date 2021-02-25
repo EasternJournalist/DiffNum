@@ -134,7 +134,7 @@ namespace DiffNum
 			return ret;
 		}
 		T norm() const {
-			return Sqrt(norm2());
+			return Math<T>::Sqrt(norm2());
 		}
 		Vec<T, N> normalize() const {
 			T nrm = norm();
@@ -169,7 +169,7 @@ namespace DiffNum
 		~Vec() { }
 
 		bool constexpr Valid() const {
-			return !Decl::IsNaN<T>(this->_Elems[0]);
+			return Math<T>::IsNaN(this->_Elems[0]);
 		}
 	};
 
