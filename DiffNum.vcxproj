@@ -82,6 +82,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
+    <IncludePath>D:\DevelopProjects\DiffNum\DiffNum\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -146,6 +147,7 @@
     <ClCompile Include="src\Tensor.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\DiffArrayVar.h" />
     <ClInclude Include="include\DiffBasic.h" />
     <ClInclude Include="include\DiffManager.h" />
     <ClInclude Include="include\DiffMath.h" />

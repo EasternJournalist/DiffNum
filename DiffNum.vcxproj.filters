@@ -47,5 +47,8 @@
     <ClInclude Include="include\DiffBasic.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="include\DiffArrayVar.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
