@@ -151,6 +151,7 @@
     <ClInclude Include="include\DiffBasic.h" />
     <ClInclude Include="include\DiffManager.h" />
     <ClInclude Include="include\DiffMath.h" />
+    <ClInclude Include="include\DiffNum.h" />
     <ClInclude Include="include\DiffTensor.h" />
     <ClInclude Include="include\DiffVar.h" />
     <ClInclude Include="include\Tensor.h" />

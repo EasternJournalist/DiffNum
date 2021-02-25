@@ -1,8 +1,7 @@
 ﻿
 #include <iostream>
-#include <DiffMath.h>
+#include <DiffNum.h>
 #include <Vec.h>
-#include <DiffManager.h>
 
 using namespace DiffNum;
 

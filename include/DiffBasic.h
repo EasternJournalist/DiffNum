@@ -6,10 +6,6 @@
 namespace DiffNum {
 	const int __NaNd = 0xFFC00000, __Infinityd = 0x7F800000, __Neg_Infinityd = 0xFF800000;
 	const __int64 __NaNf = 0xFFF8000000000000, __Infinityf = 0x7FF0000000000000, __Neg_Infinityf = 0xFFF0000000000000;
-
-	typedef DiffVar<double> ddouble;
-	typedef DiffVar<float> dfloat;
-
 	
 	template <class value_type>
 	const value_type NaN;
