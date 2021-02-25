@@ -11,7 +11,7 @@ a.SetVar(2, 0); b.SetVar(2, 1);
 
 // Equations (Computed in time)
 auto c = a + b;
-auto d = dmath::Log(dmath::Max(dmath::Sin(a / c), b));
+auto d = dmathd::Log(dmathd::Max(dmathd::Sin(a / c), b));
 
 // Output the result and the gradient
 std::cout << d << std::endl;
