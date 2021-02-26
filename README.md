@@ -1,7 +1,14 @@
 # DiffNum
- A simple head-only library for differentiable programming. Just replace `float` and `double` with `dfloat`, and `ddouble`, then it does Auto-Grad for you. Secondary derivatives and higher order derivatives are also supported. 
+ A light-weighed head-only c++ library for differentiable programming. It is implemented  simply with forward inference with chain rule, instead of computation graph, source code transformation or other high level auto-grad algorithms. Take least efforts to write an auto-grad program!
 
-Easy to use. Primary math functions are supported in `Math<n_type>`
+* **Extremely easy to use**.  Just replace `float`   `double` with `dfloat`  `ddouble`, and specify the independent variables via `SetVar()`. Then it does Auto-Grad for you. The gradients can be accessed at any time of computation. 
+
+* **Secondary derivatives and higher order derivatives are also supported**.  Higher order derivatives are derived via nesting of template class `DiffVar`. It might be written like `DiffVar<DiffVar<double>>`. It means doing auto-grad for the gradients, that is the secondary derivatives or Hessian matrices. 
+
+* **CUDA supported**. DiffNum can be even used in CUDA kernel functions (array-like gradients only). Just replace `float` , `double` with `dfloat_arr_cuda` , and `double_arr_cuda`. This data structure can be seamlessly used in CUDA functions as local variables, parameters or many other purpose. (Please note that the CUDA code auto-grad loops of a single variable are still sequential, not parallel. In large scale computations, the parallelism should be given to higher level of computations like matrix operations.) 
+* **(Extra and in progress)** . Independent from DiffNum, we offer template classes `Vec`, `Matrix` and `Tensor` . They might be useful. 
+
+ Primary math functions are supported in `Math<n_type>`
 
 ```c++
 // Example 1. a, b are variables. c = a+b; d
@@ -13,7 +20,7 @@ a.SetVar(2, 0); b.SetVar(2, 1);
 auto c = a + b;
 auto d = dmathd::Log(dmathd::Max(dmathd::Sin(a / c), b));
 
-// Output the result and the gradient
+// Output both the result and the gradient
 std::cout << d << std::endl;
 ```
 
@@ -39,7 +46,7 @@ v1[2].SetVar(1, 0);
 // Equations (Computed in time)
 auto q = Vec<ddouble, 3>::dot(v1, v2);
 
-// Output the result and the gradient
+// Output both the result and the gradient
 std::cout << q << std::endl;
 ```
 
