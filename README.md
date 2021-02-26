@@ -1,5 +1,5 @@
 # DiffNum
- A light-weighed head-only c++ library for differentiable programming. It is implemented  simply with forward inference with chain rule, instead of computation graph, source code transformation or other high level auto-grad algorithms. Take least efforts to write an auto-grad program!
+ A light-weighted head-only c++ library for differentiable programming. It is implemented  simply with forward inference with chain rule, instead of computation graph, source code transformation or other high level auto-grad algorithms. Take least efforts to write an auto-grad program!
 
 * **Extremely easy to use**.  Just replace `float`   `double` with `dfloat`  `ddouble`, and specify the independent variables via `SetVar()`. Then it does Auto-Grad for you. The gradients can be accessed at any stage of computation. 
 
