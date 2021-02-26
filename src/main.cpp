@@ -73,7 +73,7 @@ int main()
 
     // Example 5. Implement in CUDA kernal.
 #ifdef DIFFNUM_WITH_CUDA
-    std::cout << "\n ** Test on CUDA) ** \n u := 1, v := Pi / 3" << std::endl;
+    std::cout << "\n *** Test on CUDA *** \n u := 1, v := Pi / 3" << std::endl;
     ddouble_arr_cuda<2> u = 1., v = Pi<double> / 3.;
     u.SetVar(0); v.SetVar(1);
     std::cout << "u + sin(v) = " << cuda_test(u, v) << std::endl;

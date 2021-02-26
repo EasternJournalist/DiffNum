@@ -1,11 +1,11 @@
 # DiffNum
  A light-weighed head-only c++ library for differentiable programming. It is implemented  simply with forward inference with chain rule, instead of computation graph, source code transformation or other high level auto-grad algorithms. Take least efforts to write an auto-grad program!
 
-* **Extremely easy to use**.  Just replace `float`   `double` with `dfloat`  `ddouble`, and specify the independent variables via `SetVar()`. Then it does Auto-Grad for you. The gradients can be accessed at any time of computation. 
+* **Extremely easy to use**.  Just replace `float`   `double` with `dfloat`  `ddouble`, and specify the independent variables via `SetVar()`. Then it does Auto-Grad for you. The gradients can be accessed at any stage of computation. 
 
-* **Secondary derivatives and higher order derivatives are also supported**.  Higher order derivatives are derived via nesting of template class `DiffVar`. It might be written like `DiffVar<DiffVar<double>>`. It means doing auto-grad for the gradients, that is the secondary derivatives or Hessian matrices. 
+* **Secondary derivatives and higher order derivatives are also supported**.  Higher order derivatives are derived via nesting template class `DiffVar`. It might be written like `DiffVar<DiffVar<double>>`. It means doing auto-grad for the gradients, that is the secondary derivatives or Hessian matrices. 
 
-* **CUDA supported**. DiffNum can be even used in CUDA kernel functions (array-like gradients only). Just replace `float` , `double` with `dfloat_arr_cuda` , and `double_arr_cuda`. This data structure can be seamlessly used in CUDA functions as local variables, parameters or many other purpose. (Please note that the CUDA code auto-grad loops of a single variable are still sequential, not parallel. In large scale computations, the parallelism should be given to higher level of computations like matrix operations.) 
+* **CUDA supported**. DiffNum can be even used in CUDA kernel functions (array-like gradients only). Just replace `float` , `double` with `dfloat_arr_cuda` , and `double_arr_cuda`. This data structure can be seamlessly applied in CUDA functions as local variables, parameters or other purposes. (Please note that the CUDA code auto-grad loops of a single variable are still sequential, not parallel. In large scale computations, the parallelism should be given to higher level of computations like matrix operations.) 
 * **(Extra and in progress)** . Independent from DiffNum, we offer template classes `Vec`, `Matrix` and `Tensor` . They might be useful. 
 
  Primary math functions are supported in `Math<n_type>`
