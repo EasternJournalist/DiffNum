@@ -54,6 +54,7 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\CUDA 11.0.props" />
   </ImportGroup>
   <ImportGroup Label="Shared">
   </ImportGroup>
@@ -78,7 +79,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(ProjectDir)include;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)include;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.0\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.0\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -124,6 +126,9 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <CudaCompile>
+      <TargetMachinePlatform>64</TargetMachinePlatform>
+    </CudaCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -140,24 +145,34 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <CudaCompile>
+      <TargetMachinePlatform>64</TargetMachinePlatform>
+    </CudaCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <CudaCompile Include="cuda_test.cu">
+      <FileType>Document</FileType>
+    </CudaCompile>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="src\DiffMath.cpp" />
     <ClCompile Include="src\Tensor.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\cuda_test.h" />
     <ClInclude Include="include\DiffArrayVar.h" />
     <ClInclude Include="include\DiffBasic.h" />
     <ClInclude Include="include\DiffManager.h" />
     <ClInclude Include="include\DiffMath.h" />
+    <ClInclude Include="include\DiffMath_cuda.cuh" />
     <ClInclude Include="include\DiffNum.h" />
+    <ClInclude Include="include\DiffNum_cuda.h" />
     <ClInclude Include="include\DiffTensor.h" />
     <ClInclude Include="include\DiffVar.h" />
+    <ClInclude Include="include\DiffVar_cuda.cuh" />
     <ClInclude Include="include\Tensor.h" />
     <ClInclude Include="include\Vec.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\CUDA 11.0.targets" />
   </ImportGroup>
 </Project>

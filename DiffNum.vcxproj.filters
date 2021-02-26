@@ -13,12 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="头文件\cuda_impl">
+      <UniqueIdentifier>{748bcb3c-07e4-4432-869b-00f6105a4e86}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Tensor.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="src\DiffMath.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
@@ -53,5 +53,25 @@
     <ClInclude Include="include\DiffNum.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="include\DiffVar_cuda.cuh">
+      <Filter>头文件\cuda_impl</Filter>
+    </ClInclude>
+    <ClInclude Include="include\DiffMath_cuda.cuh">
+      <Filter>头文件\cuda_impl</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cuda_test.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\DiffNum_cuda.h">
+      <Filter>头文件\cuda_impl</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CudaCompile Include="DiffVar_cuda.cu">
+      <Filter>头文件\cuda_impl</Filter>
+    </CudaCompile>
+    <CudaCompile Include="cuda_test.cu">
+      <Filter>源文件</Filter>
+    </CudaCompile>
   </ItemGroup>
 </Project>

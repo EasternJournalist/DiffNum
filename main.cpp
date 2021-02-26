@@ -1,7 +1,19 @@
 ﻿
+
+// By defining this macro, DiffNum_cuda will be tested in main.cpp. Make sure you have installed CUDA toolkits.
+// If CUDA is not installed on your device, undefine this macro to disable it.
+#define DIFFNUM_WITH_CUDA   
+
 #include <iostream>
 #include <DiffNum.h>
 #include <Vec.h>
+
+#ifdef DIFFNUM_WITH_CUDA
+#include <DiffNum_cuda.h>
+#include <cuda_test.h>
+#endif
+
+
 
 using namespace DiffNum;
 
@@ -37,7 +49,7 @@ int main()
     auto q = Vec<ddouble, 3>::dot(v1, v2);
 
     std::cout << q << std::endl;
-
+    std::cout << std::endl;
     // Example 3. Use the DiffManager to help you set up variables.
     DiffManager<float> manager;
 
@@ -48,8 +60,8 @@ int main()
     using ddmath_arr = Math<dddouble_arr>;
     
     dddouble_arr x = ddouble_arr(2.), y = ddouble_arr(3.);
-    x.SetVar(2, 0); x.value.SetVar(2, 0);
-    y.SetVar(2, 1), y.value.SetVar(2, 1);
+    x.SetVar(0); x.value.SetVar(0);
+    y.SetVar(1), y.value.SetVar(1);
 
     std::cout << "x := 2, y := 3" << std::endl;
     std::cout << "x^3 + y^2 = ";
@@ -59,5 +71,12 @@ int main()
     std::cout <<  x + ddmath_arr::Pow(x, 3) * y + x * y + y << std::endl;
 
 
+    // Example 5. Implement in CUDA kernal.
+#ifdef DIFFNUM_WITH_CUDA
+    std::cout << "\n ** Test on CUDA) ** \n u := 1, v := Pi / 3" << std::endl;
+    ddouble_arr_cuda<2> u = 1., v = Pi<double> / 3.;
+    u.SetVar(0); v.SetVar(1);
+    std::cout << "u + sin(v) = " << cuda_test(u, v) << std::endl;
+#endif
     return 0;
 }

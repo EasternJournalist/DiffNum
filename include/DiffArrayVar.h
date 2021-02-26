@@ -5,6 +5,8 @@
 #include <ostream>
 
 namespace DiffNum {
+
+
 	/// <summary>
 	/// Differentiable varible (fixed variable to be studied, and faster). The numerical value and the derivatives will be automatically evaluated simultaneously.
 	/// The gradients on target variable must be specified before any computation. You may use DiffArrayVar.SetVar or 
@@ -39,7 +41,7 @@ namespace DiffNum {
 			return *this;
 		}
 
-		void SetVar(const size_t num_var, const size_t as_var_idx) {
+		void SetVar(const size_t as_var_idx) {
 			for (size_t i = 0; i < size; i++) gradient[i] = n_type(0);
 			gradient[as_var_idx] = n_type(1);
 		}

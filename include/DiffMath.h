@@ -1,21 +1,31 @@
 #pragma once
 
-
+#include <DiffBasic.h>
 #include <DiffVar.h>
 #include <DiffArrayVar.h>
 #include <math.h>
-#include <DiffBasic.h>
+
 
 namespace DiffNum {
-	
+
+	template <class n_type> const DiffVar<n_type> NaN<DiffVar<n_type>> = DiffVar<n_type>(NaN<n_type>);
+	template <class n_type, size_t size> const DiffArrayVar<n_type, size> NaN<DiffArrayVar<n_type, size>> = DiffArrayVar<n_type, size>(NaN<n_type>);
+
+	template <class n_type> const DiffVar<n_type> Inf<DiffVar<n_type>> = DiffVar<n_type>(Inf<n_type>);
+	template <class n_type, size_t size> const DiffArrayVar<n_type, size> Inf<DiffArrayVar<n_type, size>> = DiffArrayVar<n_type, size>(Inf<n_type>);
+
+	template <class n_type> const DiffVar<n_type> NegInf<DiffVar<n_type>> = DiffVar<n_type>(NegInf<n_type>);
+	template <class n_type, size_t size> const DiffArrayVar<n_type, size> NegInf<DiffArrayVar<n_type, size>> = DiffArrayVar<n_type, size>(NegInf<n_type>);
+
+	template <class n_type> const DiffVar<n_type> Pi<DiffVar<n_type>> = DiffVar<n_type>(Pi<n_type>);
+	template <class n_type, size_t size> const DiffArrayVar<n_type, size> Pi<DiffArrayVar<n_type, size>> = DiffArrayVar<n_type, size>(Pi<n_type>);
+
 	/// <summary>
-	/// Math functions for numerical type.
+	/// Static mathematical functions for DiffNum.
 	/// </summary>
 	/// <typeparam name="n_type"></typeparam>
 	template<class n_type>
-	class Math {
-		
-	};
+	class Math {};
 
 	template<>
 	class Math<float> {
