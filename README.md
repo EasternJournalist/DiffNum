@@ -59,6 +59,8 @@ auto q = Vec<ddouble, 3>::dot(v1, v2);
 std::cout << q << std::endl;
 ```
 
+
+
 ## Install & Build
 
 This is a head-only library. Just clone this repository and include the headers in your codes.
@@ -69,7 +71,12 @@ This is a head-only library. Just clone this repository and include the headers 
 
 And for CUDA applications
 
-```
+```c++
 #include <DiffNum_cuda.h>
 ```
 
+
+
+## By the way
+
+Thanks to this project, I learned CUDA... 
