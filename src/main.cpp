@@ -51,8 +51,6 @@ int main()
 
     std::cout << q << std::endl;
     std::cout << std::endl;
-    // Example 3. Use the DiffManager to help you set up variables.
-    DiffManager<float> manager;
 
     // Example 4. Evaluating secondary derivative.
     using ddmath = Math<dddouble<2>>;
@@ -68,7 +66,6 @@ int main()
     std::cout << "x + x^3*y + x*y + 2*y = ";
     std::cout <<  x + ddmath::Pow(x, unsigned int(3)) * y + x * y + 2. * y << std::endl;
 
-    DiffVar<DiffVar<DiffVar<float, 3>, 3>, 3> t;
     // Example 5. Implement in CUDA kernal.
 #ifdef DIFFNUM_WITH_CUDA
     std::cout << "\n *** Test on CUDA *** \n u := 1, v := Pi / 3" << std::endl;

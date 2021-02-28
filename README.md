@@ -74,52 +74,70 @@
 
   `DiffVar_cuda` can be parameters of `__global__` functions.
 
-* **Directly memcpy DiffVar/DiffVar_cuda arrays ?**
+* **Directly memcpy DiffVar or DiffVar_cuda arrays ?**
 
   Except for `DiffVar<d_type, 0>` , which is dynamic, all other `DiffVar` arrays can be directly copied.
 
-## Examples
+## Short Examples
 
- Primary math functions are supported in `Math<n_type>`
+**Example 1.** a, b are independent variables. c = a+b; d = log(max(sin(a/c), b))
 
 ```c++
-// Example 1. a, b are variables. c = a+b; d
-ddouble a = 2., b = 3.;
-// 2 total variables, a is the first, b is the second 
-a.SetVar(2, 0); b.SetVar(2, 1);
+    using dmath = Math<ddouble<0>>;
+	// Example 1. a, b are variables. c = a+b; d = log(max(sin(a/c), b))
+    ddouble<0> a = 2., b = 3.;
+    // 2 total variables, a is the first, b is the second 
+    a.setVar(2, 0); b.setVar(2, 1);
 
-// Equations (Computed in time)
-auto c = a + b;
-auto d = dmathd::Log(dmathd::Max(dmathd::Sin(a / c), b));
+    auto c = a + b;
+    auto d = dmathd::Log(dmath::Max(dmathd::Sin(a / c), b));
 
-// Output both the result and the gradient
-std::cout << d << std::endl;
+    std::cout << d << std::endl;
 ```
 
 
 
-We also offer dense `Vec`  and `Mat` . Since `DiffVar` is so similar to `float` and `double`, they can be easily adopted into any advanced numerical structure. 
+**Example 2.** Vec v1 v2. v1[2] is the variable. q = v1 dot v2. We also offer dense `Vec`  and `Mat` . Since `DiffVar` is so similar to `float` and `double`, they can be easily adopted into any advanced numerical structure. 
 
 ```c++
-// Example 2. Vec v1 v2. v1[2] is the variable. q = v1 dot v2.
-Vec<ddouble, 3> v1, v2;
+ 	// Example 2. Vec v1 v2. v1[2] is the variable. q = v1 dot v2.
+    Vec<ddouble<0>, 3> v1, v2;
 
-v1[0] = 8.7;
-v1[1] = 4.3;
-v1[2] = 7.;
+    v1[0] = 8.7;
+    v1[1] = 4.3;
+    v1[2] = 7.;
 
-v2[0] = -6.7;
-v2[1] = 4.1;
-v2[2] = 2.3;
+    v2[0] = -6.7;
+    v2[1] = 4.1;
+    v2[2] = 2.3;
 
-// Set v1[2] as the only variable.
-v1[2].SetVar(1, 0);
+    // Set v1[2] as the only variable.
+    v1[2].setVar(1, 0);
 
-// Equations (Computed in time)
-auto q = Vec<ddouble, 3>::dot(v1, v2);
+    auto q = Vec<ddouble<0>, 3>::dot(v1, v2);
 
-// Output both the result and the gradient
-std::cout << q << std::endl;
+    std::cout << q << std::endl;
+    std::cout << std::endl;
+```
+
+
+
+ **Example 3. Evaluating secondary derivative.**
+
+```c++
+    // Example 3. Evaluating secondary derivative.
+    using ddmath = Math<dddouble<2>>;
+    
+    dddouble<2> x = 2., y = 3.;
+    
+    x.setVar(0); y.setVar(1),
+
+    std::cout << "x := 2, y := 3" << std::endl;
+    std::cout << "x^3 + 2*y^2 = ";
+    std::cout << ddmath::Pow(x, unsigned int(3)) + 2. * ddmath::Pow(y, unsigned int(2)) << std::endl;
+
+    std::cout << "x + x^3*y + x*y + 2*y = ";
+    std::cout <<  x + ddmath::Pow(x, unsigned int(3)) * y + x * y + 2. * y << std::endl
 ```
 
 
