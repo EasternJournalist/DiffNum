@@ -1,31 +1,27 @@
 #pragma once
 
 #include <DiffBasic.h>
-#include <DiffVar.h>
-#include <DiffArrayVar.h>
+#include <DiffVar_arr.h>
+#include <DiffVar_vec.h>
 #include <math.h>
 
 
 namespace DiffNum {
 
-	template <class d_type> const DiffVar<d_type> NaN<DiffVar<d_type>> = DiffVar<d_type>(NaN<typename DiffVar<d_type>::n_type>);
-	template <class d_type, size_t size> const DiffArrayVar<d_type, size> NaN<DiffArrayVar<d_type, size>> = DiffArrayVar<d_type, size>(NaN<typename DiffArrayVar<d_type, size>::n_type>);
 
-	template <class d_type> const DiffVar<d_type> Inf<DiffVar<d_type>> = DiffVar<d_type>(Inf<typename DiffVar<d_type>::n_type>);
-	template <class d_type, size_t size> const DiffArrayVar<d_type, size> Inf<DiffArrayVar<d_type, size>> = DiffArrayVar<d_type, size>(Inf<typename DiffArrayVar<d_type, size>::n_type>);
+	template <class d_type, size_t size> const DiffVar<d_type, size> NaN<DiffVar<d_type, size>> = DiffVar<d_type, size>(NaN<typename DiffVar<d_type, size>::n_type>);
 
-	template <class d_type> const DiffVar<d_type> NegInf<DiffVar<d_type>> = DiffVar<d_type>(NegInf<typename DiffVar<d_type>::n_type>);
-	template <class d_type, size_t size> const DiffArrayVar<d_type, size> NegInf<DiffArrayVar<d_type, size>> = DiffArrayVar<d_type, size>(NegInf<typename DiffArrayVar<d_type, size>::n_type>);
+	template <class d_type, size_t size> const DiffVar<d_type, size> Inf<DiffVar<d_type, size>> = DiffVar<d_type, size>(Inf<typename DiffVar<d_type, size>::n_type>);
 
-	template <class d_type> const DiffVar<d_type> Pi<DiffVar<d_type>> = DiffVar<d_type>(Pi<typename DiffVar<d_type>::n_type>);
-	template <class d_type, size_t size> const DiffArrayVar<d_type, size> Pi<DiffArrayVar<d_type, size>> = DiffArrayVar<d_type, size>(Pi<typename DiffArrayVar<d_type, size>::n_type>);
+	template <class d_type, size_t size> const DiffVar<d_type, size> NegInf<DiffVar<d_type, size>> = DiffVar<d_type, size>(NegInf<typename DiffVar<d_type, size>::n_type>);
+
+	template <class d_type, size_t size> const DiffVar<d_type, size> Pi<DiffVar<d_type, size>> = DiffVar<d_type, size>(Pi<typename DiffVar<d_type, size>::n_type>);
 
 	/// <summary>
 	/// Static mathematical functions for DiffNum.
 	/// </summary>
 	/// <typeparam name="n_type"></typeparam>
-	template<class n_type>
-	class Math {};
+	
 
 	template<>
 	class Math<float> {
@@ -75,10 +71,14 @@ namespace DiffNum {
 
 
 	template<class d_type>
-	class Math<DiffVar<d_type>> {
+	class Math {};
+
+
+	template<class d_type>
+	class Math<DiffVar<d_type, 0>> {
 		using MathofNum = Math<d_type>;
-		using n_type = typename DiffVar<d_type>::n_type;
-		using s_type = DiffVar<d_type>;
+		using n_type = typename DiffVar<d_type, 0>::n_type;
+		using s_type = DiffVar<d_type, 0>;
 
 	public:
 
@@ -323,10 +323,10 @@ namespace DiffNum {
 	
 
 	template<class d_type, size_t size>
-	class Math<DiffArrayVar<d_type, size>> {
+	class Math<DiffVar<d_type, size>> {
 		using MathofNum = Math<d_type>;
-		using n_type = typename DiffArrayVar<d_type, size>::n_type;
-		using s_type = DiffArrayVar<d_type, size>;
+		using n_type = typename DiffVar<d_type, size>::n_type;
+		using s_type = DiffVar<d_type, size>;
 
 
 	public:

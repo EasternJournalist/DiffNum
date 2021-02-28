@@ -10,22 +10,25 @@ namespace DiffNum {
 
 	/// <summary>
 	/// Differentiable varible (fixed variable to be studied, and faster). The numerical value and the derivatives will be automatically evaluated simultaneously.
-	/// The gradients on target variable must be specified before any computation. You may use DiffArrayVar.SetVar or 
+	/// The gradients on target variable must be specified before any computation. You may use DiffVar.setVar or 
 	/// class DiffManager to help initalize and deal with the variables that you study. 
 	/// </summary>
 	/// <typeparam name="d_type">The type of numerical value. eg. float, double</typeparam>
 	/// <typeparam name="size"> The size of gradient vector </typeparam>
 	template <class d_type, size_t size>
-	struct DiffArrayVar {
+	struct DiffVar {
+		static_assert(size > 0, "The size of array-like DiffVar gradients must be a positive integer.\
+			Do you refer to vector-like DiffVar? You may forget to include \"DiffVar_vec.h\".");
+		
 		using n_type = d_type;
-		using s_type = DiffArrayVar<d_type, size>;
+		using s_type = DiffVar<d_type, size>;
 
-		DiffArrayVar() {}
-		DiffArrayVar(const n_type value) : value(value) {
+		DiffVar() {}
+		DiffVar(const n_type value) : value(value) {
 			for (size_t i = 0; i < size; i++) gradient[i] = n_type(0);
 		}
-		DiffArrayVar(n_type value, const std::array<n_type, size>& gradient) : value(value), gradient(gradient) {}
-		DiffArrayVar(n_type value, size_t as_var_idx) : value(value) {
+		DiffVar(n_type value, const std::array<n_type, size>& gradient) : value(value), gradient(gradient) {}
+		DiffVar(n_type value, size_t as_var_idx) : value(value) {
 			for (size_t i = 0; i < size; i++) gradient[i] = n_type(0);
 			gradient[as_var_idx] = n_type(1);
 		}
@@ -52,7 +55,7 @@ namespace DiffNum {
 		}
 
 
-		void SetVar(const size_t as_var_idx) {
+		void setVar(const size_t as_var_idx) {
 			for (size_t i = 0; i < size; i++) gradient[i] = n_type(0);
 			gradient[as_var_idx] = n_type(1);
 		}
@@ -267,19 +270,21 @@ namespace DiffNum {
 	};
 
 
-	template <class r_type, size_t size>
-	struct DiffArrayVar<DiffArrayVar<r_type, size>, size> {
-		using n_type = typename DiffArrayVar<r_type, size>::n_type;
-		using d_type = DiffArrayVar<r_type, size>;
-		using s_type = DiffArrayVar<DiffArrayVar<r_type, size>, size>;
+	template <class r_type, size_t size, size_t r_size>
+	struct DiffVar<DiffVar<r_type, r_size>, size> {
+		static_assert(size == r_size, "The sizes of gradients must be the same when using DiffVar recursively.");
+
+		using n_type = typename DiffVar<r_type, size>::n_type;
+		using d_type = DiffVar<r_type, size>;
+		using s_type = DiffVar<DiffVar<r_type, size>, size>;
 		
 
-		DiffArrayVar() {}
-		DiffArrayVar(const n_type value) : value(value) {
+		DiffVar() {}
+		DiffVar(const n_type value) : value(value) {
 			for (size_t i = 0; i < size; i++) gradient[i] = n_type(0);
 		}
-		DiffArrayVar(n_type value, const std::array<n_type, size>& gradient) : value(value), gradient(gradient) {}
-		DiffArrayVar(n_type value, size_t as_var_idx) : value(value) {
+		DiffVar(n_type value, const std::array<n_type, size>& gradient) : value(value), gradient(gradient) {}
+		DiffVar(n_type value, size_t as_var_idx) : value(value) {
 			for (size_t i = 0; i < size; i++) gradient[i] = n_type(0);
 			gradient[as_var_idx] = n_type(1);
 		}
@@ -309,8 +314,8 @@ namespace DiffNum {
 		}
 
 
-		void SetVar(const size_t as_var_idx) {
-			value.SetVar(as_var_idx);
+		void setVar(const size_t as_var_idx) {
+			value.setVar(as_var_idx);
 			for (size_t i = 0; i < size; i++) gradient[i] = n_type(0);
 			gradient[as_var_idx] = n_type(1);
 		}
@@ -523,7 +528,7 @@ namespace DiffNum {
 	};
 
 	template<typename d_type, size_t size>
-	std::ostream& operator << (std::ostream& ostrm, const DiffArrayVar<d_type, size>& v) {
+	std::ostream& operator << (std::ostream& ostrm, const DiffVar<d_type, size>& v) {
 		ostrm << v.toString();
 		return ostrm;
 	}

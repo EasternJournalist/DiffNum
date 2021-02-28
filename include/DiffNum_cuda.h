@@ -9,9 +9,9 @@
 namespace DiffNum {
 
 	template<size_t size>
-	using dfloat_arr_cuda = DiffArrayVar_cuda<float, size>;
+	using dfloat_cuda = DiffVar_cuda<float, size>;
 
 	template<size_t size>
-	using ddouble_arr_cuda = DiffArrayVar_cuda<double, size>;
+	using ddouble_cuda = DiffVar_cuda<double, size>;
 
 }

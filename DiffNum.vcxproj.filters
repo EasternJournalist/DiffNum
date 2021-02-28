@@ -24,9 +24,6 @@
     <ClInclude Include="include\DiffTensor.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="include\DiffVar.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="include\DiffMath.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -37,9 +34,6 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="include\DiffBasic.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="include\DiffArrayVar.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="include\DiffNum.h">
@@ -56,6 +50,12 @@
     </ClInclude>
     <ClInclude Include="include\DiffVar_cuda.h">
       <Filter>头文件\cuda_impl</Filter>
+    </ClInclude>
+    <ClInclude Include="include\DiffVar_vec.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\DiffVar_arr.h">
+      <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

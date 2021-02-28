@@ -8,10 +8,10 @@
 
 namespace DiffNum {
 
-	template <class d_type, size_t size> const DiffArrayVar_cuda<d_type, size> NaN<DiffArrayVar_cuda<d_type, size>> = DiffArrayVar_cuda<d_type, size>(NaN<typename DiffArrayVar_cuda<d_type, size>::n_type>);
-	template <class d_type, size_t size> const DiffArrayVar_cuda<d_type, size> Inf<DiffArrayVar_cuda<d_type, size>> = DiffArrayVar_cuda<d_type, size>(Inf<typename DiffArrayVar_cuda<d_type, size>::n_type>);
-	template <class d_type, size_t size> const DiffArrayVar_cuda<d_type, size> NegInf<DiffArrayVar_cuda<d_type, size>> = DiffArrayVar_cuda<d_type, size>(NegInf<typename DiffArrayVar_cuda<d_type, size>::n_type>);
-	template <class d_type, size_t size> const DiffArrayVar_cuda<d_type, size> Pi<DiffArrayVar_cuda<d_type, size>> = DiffArrayVar_cuda<d_type, size>(Pi<typename DiffArrayVar_cuda<d_type, size>::n_type>);
+	template <class d_type, size_t size> const DiffVar_cuda<d_type, size> NaN<DiffVar_cuda<d_type, size>> = DiffVar_cuda<d_type, size>(NaN<typename DiffVar_cuda<d_type, size>::n_type>);
+	template <class d_type, size_t size> const DiffVar_cuda<d_type, size> Inf<DiffVar_cuda<d_type, size>> = DiffVar_cuda<d_type, size>(Inf<typename DiffVar_cuda<d_type, size>::n_type>);
+	template <class d_type, size_t size> const DiffVar_cuda<d_type, size> NegInf<DiffVar_cuda<d_type, size>> = DiffVar_cuda<d_type, size>(NegInf<typename DiffVar_cuda<d_type, size>::n_type>);
+	template <class d_type, size_t size> const DiffVar_cuda<d_type, size> Pi<DiffVar_cuda<d_type, size>> = DiffVar_cuda<d_type, size>(Pi<typename DiffVar_cuda<d_type, size>::n_type>);
 
 	/// <summary>
 	/// Static mathematical functions for DiffVar in CUDA.
@@ -70,10 +70,10 @@ namespace DiffNum {
 
 
 	template<class d_type, size_t size>
-	class Math_cuda<DiffArrayVar_cuda<d_type, size>> {
+	class Math_cuda<DiffVar_cuda<d_type, size>> {
 		using MathofNum = Math_cuda<d_type>;
-		using n_type = typename DiffArrayVar_cuda<d_type, size>::n_type;
-		using s_type = DiffArrayVar_cuda<d_type, size>;
+		using n_type = typename DiffVar_cuda<d_type, size>::n_type;
+		using s_type = DiffVar_cuda<d_type, size>;
 
 	public:
 

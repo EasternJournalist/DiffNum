@@ -41,14 +41,16 @@ namespace DiffNum {
 
 	/// <summary>
 	/// Differentiable varible (fixed variable to be studied, and faster). The numerical value and the derivatives will be automatically evaluated simultaneously.
-	/// The gradients on target variable must be specified before any computation. You may use DiffArrayVar_cuda.SetVar or 
+	/// The gradients on target variable must be specified before any computation. You may use DiffVar_cuda.setVar or 
 	/// class DiffManager to help initalize and deal with the variables that you study. 
 	/// </summary>
 	/// <typeparam name="n_type">The type of numerical value. eg. float, double</typeparam>
 	/// <typeparam name="size"> The size of gradient vector </typeparam>
 	template <typename d_type, size_t size>
-	struct DiffArrayVar_cuda {
-		using s_type = DiffArrayVar_cuda<d_type, size>;
+	struct DiffVar_cuda {
+		static_assert(size > 0, "The size of DiffVar_cuda gradients must be a positive integer.");
+
+		using s_type = DiffVar_cuda<d_type, size>;
 		using n_type = d_type;
 
 		d_type value;
@@ -62,18 +64,18 @@ namespace DiffNum {
 			return gradient[var_idx];
 		}
 
-		__host__ __device__ DiffArrayVar_cuda() {}
+		__host__ __device__ DiffVar_cuda() {}
 
 
-		__host__ __device__ DiffArrayVar_cuda(const n_type value) : value(value) {
+		__host__ __device__ DiffVar_cuda(const n_type value) : value(value) {
 			for (size_t i = 0; i < size; i++) gradient[i] = n_type(0);
 		}
 
 
-		__host__ __device__ DiffArrayVar_cuda(n_type value, const array_cuda<n_type, size>& gradient) : value(value), gradient(gradient) {}
+		__host__ __device__ DiffVar_cuda(n_type value, const array_cuda<n_type, size>& gradient) : value(value), gradient(gradient) {}
 
 
-		__host__ __device__ DiffArrayVar_cuda(const n_type value, const size_t as_var_idx) : value(value) {
+		__host__ __device__ DiffVar_cuda(const n_type value, const size_t as_var_idx) : value(value) {
 			for (size_t i = 0; i < size; i++) gradient[i] = n_type(0);
 			gradient[as_var_idx] = n_type(1);
 		}
@@ -92,7 +94,7 @@ namespace DiffNum {
 			return *this;
 		}
 
-		__host__ __device__ void SetVar(const size_t as_var_idx) {
+		__host__ __device__ void setVar(const size_t as_var_idx) {
 			assert(as_var_idx < size);
 			for (size_t i = 0; i < size; i++) gradient[i] = n_type(0);
 			gradient[as_var_idx] = n_type(1);
@@ -297,11 +299,13 @@ namespace DiffNum {
 
 	};
 
-	template <typename r_type, size_t size>
-	struct DiffArrayVar_cuda<DiffArrayVar_cuda<r_type, size>, size> {
-		using n_type = typename DiffArrayVar_cuda<r_type, size>::n_type;
-		using d_type = DiffArrayVar_cuda<r_type, size>;
-		using s_type = DiffArrayVar_cuda<d_type, size>;
+	template <typename r_type, size_t size, size_t r_size>
+	struct DiffVar_cuda<DiffVar_cuda<r_type, r_size>, size> {
+		static_assert(size == r_size, "The sizes of gradients must be the same when using DiffVar recursively.");
+
+		using n_type = typename DiffVar_cuda<r_type, size>::n_type;
+		using d_type = DiffVar_cuda<r_type, size>;
+		using s_type = DiffVar_cuda<d_type, size>;
 
 		d_type value;
 		array_cuda<d_type, size> gradient;
@@ -314,18 +318,18 @@ namespace DiffNum {
 			return gradient[var_idx];
 		}
 
-		__host__ __device__ DiffArrayVar_cuda() {}
+		__host__ __device__ DiffVar_cuda() {}
 
 
-		__host__ __device__ DiffArrayVar_cuda(const n_type value) : value(value) {
+		__host__ __device__ DiffVar_cuda(const n_type value) : value(value) {
 			for (size_t i = 0; i < size; i++) gradient[i] = n_type(0);
 		}
 
 
-		__host__ __device__ DiffArrayVar_cuda(n_type value, const array_cuda<d_type, size>& gradient) : value(value), gradient(gradient) {}
+		__host__ __device__ DiffVar_cuda(n_type value, const array_cuda<d_type, size>& gradient) : value(value), gradient(gradient) {}
 
 
-		__host__ __device__ DiffArrayVar_cuda(const n_type value, const size_t as_var_idx) : value(value) {
+		__host__ __device__ DiffVar_cuda(const n_type value, const size_t as_var_idx) : value(value) {
 			for (size_t i = 0; i < size; i++) gradient[i] = n_type(0);
 			gradient[as_var_idx] = n_type(1);
 		}
@@ -344,9 +348,9 @@ namespace DiffNum {
 			return *this;
 		}
 
-		__host__ __device__ void SetVar(const size_t as_var_idx) {
+		__host__ __device__ void setVar(const size_t as_var_idx) {
 			assert(as_var_idx < size);
-			value.SetVar(as_var_idx);
+			value.setVar(as_var_idx);
 			for (size_t i = 0; i < size; i++) gradient[i] = n_type(0);
 			gradient[as_var_idx] = n_type(1);
 		}
@@ -550,7 +554,7 @@ namespace DiffNum {
 
 
 	template<typename n_type, size_t size>
-	std::ostream& operator << (std::ostream& ostrm, const DiffArrayVar_cuda<n_type, size>& v) {
+	std::ostream& operator << (std::ostream& ostrm, const DiffVar_cuda<n_type, size>& v) {
 		ostrm << v.value << "(";
 		for (size_t i = 0; i < size - 1; i++)
 			ostrm << v.gradient[i] << ", ";

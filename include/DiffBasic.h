@@ -28,4 +28,6 @@ namespace DiffNum {
 	template <> const float Pi<float> = static_cast<float>(3.1415926535897932385);
 	template <> const double Pi<double> = static_cast<double>(3.1415926535897932385);
 
+	template <class d_type, size_t size> struct DiffVar;
+	template<class n_type> class Math;
 }

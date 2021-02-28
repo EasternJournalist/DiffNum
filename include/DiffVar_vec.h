@@ -8,14 +8,14 @@ namespace DiffNum {
 
 	/// <summary>
 	/// Differentiable varible. The numerical value and the derivatives will be automatically evaluated simultaneously.
-	/// The gradients on target variable must be specified before any computation. You may use DiffVar.SetVar or 
+	/// The gradients on target variable must be specified before any computation. You may use DiffVar.setVar or 
 	/// class DiffManager to help initalize and deal with the variables that you study. 
 	/// </summary>
 	/// <typeparam name="n_type">The type of numerical value. eg. float, double</typeparam>
 	template <class d_type>
-	struct DiffVar {
+	struct DiffVar<d_type, 0> {
 		using n_type = d_type;
-		using s_type = DiffVar<d_type>;
+		using s_type = DiffVar<d_type, 0>;
 
 
 		DiffVar() {}
@@ -48,13 +48,13 @@ namespace DiffNum {
 		}
 
 
-		void SetVar(const size_t num_var) {
+		void setVar(const size_t num_var) {
 			gradient.clear();
 			gradient.resize(num_var, n_type(0));
 		}
 
 
-		void SetVar(const size_t num_var, const size_t as_var_idx) {
+		void setVar(const size_t num_var, const size_t as_var_idx) {
 			gradient.clear();
 			gradient.resize(num_var, n_type(0));
 			gradient[as_var_idx] = n_type(1);
@@ -304,10 +304,10 @@ namespace DiffNum {
 	};
 
 	template <typename r_type>
-	struct DiffVar<DiffVar<r_type>> {
-		using n_type = typename DiffVar<r_type>::n_type;
-		using d_type = DiffVar<r_type>;
-		using s_type = DiffVar<d_type>;
+	struct DiffVar<DiffVar<r_type, 0>, 0> {
+		using n_type = typename DiffVar<r_type, 0>::n_type;
+		using d_type = DiffVar<r_type, 0>;
+		using s_type = DiffVar<d_type, 0>;
 
 
 		DiffVar() {}
@@ -342,15 +342,15 @@ namespace DiffNum {
 		}
 
 
-		void SetVar(const size_t num_var) {
+		void setVar(const size_t num_var) {
 			gradient.clear();
 			gradient.resize(num_var, n_type(0));
 		}
 
 
-		void SetVar(const size_t num_var, const size_t as_var_idx) {
+		void setVar(const size_t num_var, const size_t as_var_idx) {
 			gradient.clear();
-			value.SetVar(num_var, as_var_idx);
+			value.setVar(num_var, as_var_idx);
 			gradient.resize(num_var, n_type(0));
 			gradient[as_var_idx] = n_type(1);
 		}
@@ -598,11 +598,8 @@ namespace DiffNum {
 	};
 
 	template<class d_type>
-	std::ostream& operator << (std::ostream& ostrm, const DiffVar<d_type>& v) {
-		ostrm << v.value << "(";
-		for (size_t i = 0; i < v.gradient.size()-1; i++)
-			ostrm << v.gradient[i] << ", ";
-		ostrm << v.gradient.back() << ")";
+	std::ostream& operator << (std::ostream& ostrm, const DiffVar<d_type, 0>& v) {
+		ostrm << v.toString();
 		return ostrm;
 	}
 }
