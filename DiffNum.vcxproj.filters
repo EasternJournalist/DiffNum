@@ -45,23 +45,20 @@
     <ClInclude Include="include\DiffNum.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="include\DiffVar_cuda.cuh">
-      <Filter>头文件\cuda_impl</Filter>
-    </ClInclude>
-    <ClInclude Include="include\DiffMath_cuda.cuh">
-      <Filter>头文件\cuda_impl</Filter>
-    </ClInclude>
     <ClInclude Include="include\cuda_test.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="include\DiffNum_cuda.h">
       <Filter>头文件\cuda_impl</Filter>
     </ClInclude>
+    <ClInclude Include="include\DiffMath_cuda.h">
+      <Filter>头文件\cuda_impl</Filter>
+    </ClInclude>
+    <ClInclude Include="include\DiffVar_cuda.h">
+      <Filter>头文件\cuda_impl</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <CudaCompile Include="DiffVar_cuda.cu">
-      <Filter>头文件\cuda_impl</Filter>
-    </CudaCompile>
     <CudaCompile Include="src\cuda_test.cu">
       <Filter>源文件</Filter>
     </CudaCompile>

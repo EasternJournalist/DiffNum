@@ -138,6 +138,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -155,12 +156,12 @@
     <ClInclude Include="include\DiffBasic.h" />
     <ClInclude Include="include\DiffManager.h" />
     <ClInclude Include="include\DiffMath.h" />
-    <ClInclude Include="include\DiffMath_cuda.cuh" />
+    <ClInclude Include="include\DiffMath_cuda.h" />
     <ClInclude Include="include\DiffNum.h" />
     <ClInclude Include="include\DiffNum_cuda.h" />
     <ClInclude Include="include\DiffTensor.h" />
     <ClInclude Include="include\DiffVar.h" />
-    <ClInclude Include="include\DiffVar_cuda.cuh" />
+    <ClInclude Include="include\DiffVar_cuda.h" />
     <ClInclude Include="include\Tensor.h" />
     <ClInclude Include="include\Vec.h" />
   </ItemGroup>

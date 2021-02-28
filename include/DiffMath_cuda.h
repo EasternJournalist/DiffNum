@@ -1,17 +1,17 @@
 #pragma once
 
 #include <DiffBasic.h>
-#include <DiffVar_cuda.cuh>
+#include <DiffVar_cuda.h>
 #include <cuda_runtime.h>
 
 #include <math.h>
 
 namespace DiffNum {
 
-	template <class n_type, size_t size> const DiffArrayVar_cuda<n_type, size> NaN<DiffArrayVar_cuda<n_type, size>> = DiffArrayVar_cuda<n_type, size>(NaN<n_type>);
-	template <class n_type, size_t size> const DiffArrayVar_cuda<n_type, size> Inf<DiffArrayVar_cuda<n_type, size>> = DiffArrayVar_cuda<n_type, size>(Inf<n_type>);
-	template <class n_type, size_t size> const DiffArrayVar_cuda<n_type, size> NegInf<DiffArrayVar_cuda<n_type, size>> = DiffArrayVar_cuda<n_type, size>(NegInf<n_type>);
-	template <class n_type, size_t size> const DiffArrayVar_cuda<n_type, size> Pi<DiffArrayVar_cuda<n_type, size>> = DiffArrayVar_cuda<n_type, size>(Pi<n_type>);
+	template <class d_type, size_t size> const DiffArrayVar_cuda<d_type, size> NaN<DiffArrayVar_cuda<d_type, size>> = DiffArrayVar_cuda<d_type, size>(NaN<typename DiffArrayVar_cuda<d_type, size>::n_type>);
+	template <class d_type, size_t size> const DiffArrayVar_cuda<d_type, size> Inf<DiffArrayVar_cuda<d_type, size>> = DiffArrayVar_cuda<d_type, size>(Inf<typename DiffArrayVar_cuda<d_type, size>::n_type>);
+	template <class d_type, size_t size> const DiffArrayVar_cuda<d_type, size> NegInf<DiffArrayVar_cuda<d_type, size>> = DiffArrayVar_cuda<d_type, size>(NegInf<typename DiffArrayVar_cuda<d_type, size>::n_type>);
+	template <class d_type, size_t size> const DiffArrayVar_cuda<d_type, size> Pi<DiffArrayVar_cuda<d_type, size>> = DiffArrayVar_cuda<d_type, size>(Pi<typename DiffArrayVar_cuda<d_type, size>::n_type>);
 
 	/// <summary>
 	/// Static mathematical functions for DiffVar in CUDA.
@@ -69,22 +69,25 @@ namespace DiffNum {
 
 
 
-	template<class n_type, size_t size>
-	class Math_cuda<DiffArrayVar_cuda<n_type, size>> {
-		using MathofNum = Math_cuda<n_type>;
+	template<class d_type, size_t size>
+	class Math_cuda<DiffArrayVar_cuda<d_type, size>> {
+		using MathofNum = Math_cuda<d_type>;
+		using n_type = typename DiffArrayVar_cuda<d_type, size>::n_type;
+		using s_type = DiffArrayVar_cuda<d_type, size>;
+
 	public:
 
-		__host__ __device__ static bool IsNaN(const DiffArrayVar_cuda<n_type, size>& _X) {
+		__host__ __device__ static bool IsNaN(const s_type& _X) {
 			return MathofNum::IsNan(_X.value);
 		}
 
 
-		__host__ __device__ static DiffArrayVar_cuda<n_type, size> Abs(const DiffArrayVar_cuda<n_type, size>& _X) {
+		__host__ __device__ static s_type Abs(const s_type& _X) {
 			if (_X.value > n_type(0)) {
 				return _X;
 			}
 			else {
-				DiffArrayVar_cuda<n_type, size> ret;
+				s_type ret;
 				ret.value = -_X.value;
 				for (size_t i = 0; i < size; i++) {
 					ret.gradient[i] = -_X.gradient[i];
@@ -94,8 +97,8 @@ namespace DiffNum {
 		}
 
 
-		__host__ __device__ static DiffArrayVar_cuda<n_type, size> Sqrt(const DiffArrayVar_cuda<n_type, size>& _X) {
-			DiffArrayVar_cuda<n_type, size> ret;
+		__host__ __device__ static s_type Sqrt(const s_type& _X) {
+			s_type ret;
 			ret.value = MathofNum::Sqrt(_X.value);
 
 			for (size_t i = 0; i < size; i++) {
@@ -105,8 +108,8 @@ namespace DiffNum {
 		}
 
 
-		__host__ __device__ static DiffArrayVar_cuda<n_type, size> Sin(const DiffArrayVar_cuda<n_type, size>& _X) {
-			DiffArrayVar_cuda<n_type, size> ret;
+		__host__ __device__ static s_type Sin(const s_type& _X) {
+			s_type ret;
 			ret.value = MathofNum::Sin(_X.value);
 
 			for (size_t i = 0; i < size; i++) {
@@ -116,8 +119,8 @@ namespace DiffNum {
 		}
 
 
-		__host__ __device__ static DiffArrayVar_cuda<n_type, size> Cos(const DiffArrayVar_cuda<n_type, size>& _X) {
-			DiffArrayVar_cuda<n_type, size> ret;
+		__host__ __device__ static s_type Cos(const s_type& _X) {
+			s_type ret;
 			ret.value = MathofNum::Cos(_X.value);
 
 			for (size_t i = 0; i < size; i++) {
@@ -127,11 +130,11 @@ namespace DiffNum {
 		}
 
 
-		__host__ __device__ static DiffArrayVar_cuda<n_type, size> Tan(const DiffArrayVar_cuda<n_type, size>& _X) {
-			DiffArrayVar_cuda<n_type, size> ret;
+		__host__ __device__ static s_type Tan(const s_type& _X) {
+			s_type ret;
 			ret.value = MathofNum::Tan(_X.value);
 
-			n_type cosX = MathofNum::Cos(_X.value);
+			d_type cosX = MathofNum::Cos(_X.value);
 			for (size_t i = 0; i < size; i++) {
 				ret.gradient[i] = _X.gradient[i] / (cosX * cosX);;
 			}
@@ -139,11 +142,11 @@ namespace DiffNum {
 		}
 
 
-		__host__ __device__ static DiffArrayVar_cuda<n_type, size> Asin(const DiffArrayVar_cuda<n_type, size>& _X) {
-			DiffArrayVar_cuda<n_type, size> ret;
+		__host__ __device__ static s_type Asin(const s_type& _X) {
+			s_type ret;
 			ret.value = MathofNum::Asin(_X.value);
 
-			n_type dasinX = n_type(1) / MathofNum::Sqrt(n_type(1) - _X.value * _X.value);
+			d_type dasinX = n_type(1) / MathofNum::Sqrt(n_type(1) - _X.value * _X.value);
 			for (size_t i = 0; i < size; i++) {
 				ret.gradient[i] = dasinX * _X.gradient[i];
 			}
@@ -151,11 +154,11 @@ namespace DiffNum {
 		}
 
 
-		__host__ __device__ static DiffArrayVar_cuda<n_type, size> Acos(const DiffArrayVar_cuda<n_type, size>& _X) {
-			DiffArrayVar_cuda<n_type, size> ret;
+		__host__ __device__ static s_type Acos(const s_type& _X) {
+			s_type ret;
 			ret.value = MathofNum::Acos(_X.value);
 
-			n_type dacosX = n_type(-1) / MathofNum::Sqrt(n_type(1) - _X.value * _X.value);
+			d_type dacosX = n_type(-1) / MathofNum::Sqrt(n_type(1) - _X.value * _X.value);
 			for (size_t i = 0; i < size; i++) {
 				ret.gradient[i] = dacosX * _X.gradient[i];
 			}
@@ -163,11 +166,11 @@ namespace DiffNum {
 		}
 
 
-		__host__ __device__ static DiffArrayVar_cuda<n_type, size> Atan(const DiffArrayVar_cuda<n_type, size>& _X) {
-			DiffArrayVar_cuda<n_type, size> ret;
+		__host__ __device__ static s_type Atan(const s_type& _X) {
+			s_type ret;
 			ret.value = MathofNum::Atan(_X.value);
 
-			n_type datanX = n_type(1) / (n_type(1) + _X.value * _X.value);
+			d_type datanX = n_type(1) / (n_type(1) + _X.value * _X.value);
 			for (size_t i = 0; i < size; i++) {
 				ret.gradient[i] = datanX * _X.gradient[i];
 			}
@@ -175,8 +178,8 @@ namespace DiffNum {
 		}
 
 
-		__host__ __device__ static DiffArrayVar_cuda<n_type, size> Sinh(const DiffArrayVar_cuda<n_type, size>& _X) {
-			DiffArrayVar_cuda<n_type, size> ret;
+		__host__ __device__ static s_type Sinh(const s_type& _X) {
+			s_type ret;
 			ret.value = MathofNum::Sinh(_X.value);
 
 			for (size_t i = 0; i < size; i++) {
@@ -186,8 +189,8 @@ namespace DiffNum {
 		}
 
 
-		__host__ __device__ static DiffArrayVar_cuda<n_type, size> Cosh(const DiffArrayVar_cuda<n_type, size>& _X) {
-			DiffArrayVar_cuda<n_type, size> ret;
+		__host__ __device__ static s_type Cosh(const s_type& _X) {
+			s_type ret;
 			ret.value = MathofNum::Cosh(_X.value);
 
 			for (size_t i = 0; i < size; i++) {
@@ -197,11 +200,11 @@ namespace DiffNum {
 		}
 
 
-		__host__ __device__ static DiffArrayVar_cuda<n_type, size> Tanh(const DiffArrayVar_cuda<n_type, size>& _X) {
-			DiffArrayVar_cuda<n_type, size> ret;
+		__host__ __device__ static s_type Tanh(const s_type& _X) {
+			s_type ret;
 			ret.value = MathofNum::Tanh(_X.value);
 
-			n_type dtanhX = n_type(2) / (n_type(1) + MathofNum::Cosh(n_type(2) * _X.value));
+			d_type dtanhX = n_type(2) / (n_type(1) + MathofNum::Cosh(n_type(2) * _X.value));
 			for (size_t i = 0; i < size; i++) {
 				ret.gradient[i] = dtanhX * _X.gradient[i];
 			}
@@ -209,11 +212,11 @@ namespace DiffNum {
 		}
 
 
-		__host__ __device__ static DiffArrayVar_cuda<n_type, size> Asinh(const DiffArrayVar_cuda<n_type, size>& _X) {
-			DiffArrayVar_cuda<n_type, size> ret;
+		__host__ __device__ static s_type Asinh(const s_type& _X) {
+			s_type ret;
 			ret.value = MathofNum::Asinh(_X.value);
 
-			n_type dasinhX = n_type(1) / MathofNum::Sqrt(n_type(1) + _X.value * _X.value);
+			d_type dasinhX = n_type(1) / MathofNum::Sqrt(n_type(1) + _X.value * _X.value);
 			for (size_t i = 0; i < size; i++) {
 				ret.gradient[i] = dasinhX * _X.gradient[i];
 			}
@@ -221,11 +224,11 @@ namespace DiffNum {
 		}
 
 
-		__host__ __device__ static DiffArrayVar_cuda<n_type, size> Acosh(const DiffArrayVar_cuda<n_type, size>& _X) {
-			DiffArrayVar_cuda<n_type, size> ret;
+		__host__ __device__ static s_type Acosh(const s_type& _X) {
+			s_type ret;
 			ret.value = MathofNum::Acosh(_X.value);
 
-			n_type dacoshX = n_type(1) / MathofNum::Sqrt(n_type(-1) + _X.value * _X.value);
+			d_type dacoshX = n_type(1) / MathofNum::Sqrt(n_type(-1) + _X.value * _X.value);
 			for (size_t i = 0; i < size; i++) {
 				ret.gradient[i] = dacoshX * _X.gradient[i];
 			}
@@ -233,11 +236,11 @@ namespace DiffNum {
 		}
 
 
-		__host__ __device__ static DiffArrayVar_cuda<n_type, size> Atanh(const DiffArrayVar_cuda<n_type, size>& _X) {
-			DiffArrayVar_cuda<n_type, size> ret;
+		__host__ __device__ static s_type Atanh(const s_type& _X) {
+			s_type ret;
 			ret.value = MathofNum::Atanh(_X.value);
 
-			n_type datanhX = n_type(1) / (n_type(1) - _X.value * _X.value);
+			d_type datanhX = n_type(1) / (n_type(1) - _X.value * _X.value);
 			for (size_t i = 0; i < size; i++) {
 				ret.gradient[i] = datanhX * _X.gradient[i];
 			}
@@ -245,8 +248,8 @@ namespace DiffNum {
 		}
 
 
-		__host__ __device__ static DiffArrayVar_cuda<n_type, size> Exp(const DiffArrayVar_cuda<n_type, size>& _X) {
-			DiffArrayVar_cuda<n_type, size> ret;
+		__host__ __device__ static s_type Exp(const s_type& _X) {
+			s_type ret;
 			ret.value = MathofNum::Exp(_X.value);
 
 			for (size_t i = 0; i < size; i++) {
@@ -256,8 +259,8 @@ namespace DiffNum {
 		}
 
 
-		__host__ __device__ static DiffArrayVar_cuda<n_type, size> Log(const DiffArrayVar_cuda<n_type, size>& _X) {
-			DiffArrayVar_cuda<n_type, size> ret;
+		__host__ __device__ static s_type Log(const s_type& _X) {
+			s_type ret;
 			ret.value = MathofNum::Log(_X.value);
 
 			for (size_t i = 0; i < size; i++) {
@@ -267,8 +270,8 @@ namespace DiffNum {
 		}
 
 
-		__host__ __device__ static DiffArrayVar_cuda<n_type, size> Pow(const n_type& _X, const DiffArrayVar_cuda<n_type, size>& _Y) {
-			DiffArrayVar_cuda<n_type, size> ret;
+		__host__ __device__ static s_type Pow(const n_type& _X, const s_type& _Y) {
+			s_type ret;
 			ret.value = MathofNum::Pow(_X, _Y.value);
 
 			for (size_t i = 0; i < size; i++) {
@@ -278,8 +281,8 @@ namespace DiffNum {
 		}
 
 
-		__host__ __device__ static DiffArrayVar_cuda<n_type, size> Pow(const DiffArrayVar_cuda<n_type, size>& _X, const n_type& _Y) {
-			DiffArrayVar_cuda<n_type, size> ret;
+		__host__ __device__ static s_type Pow(const s_type& _X, const n_type& _Y) {
+			s_type ret;
 			ret.value = MathofNum::Pow(_X.value, _Y);
 
 			for (size_t i = 0; i < size; i++) {
@@ -289,8 +292,8 @@ namespace DiffNum {
 		}
 
 
-		__host__ __device__ static DiffArrayVar_cuda<n_type, size> Pow(const DiffArrayVar_cuda<n_type, size>& _X, const DiffArrayVar_cuda<n_type, size>& _Y) {
-			DiffArrayVar_cuda<n_type, size> ret;
+		__host__ __device__ static s_type Pow(const s_type& _X, const s_type& _Y) {
+			s_type ret;
 			ret.value = MathofNum::Pow(_X.value, _Y.value);
 
 			for (size_t i = 0; i < size; i++) {
@@ -300,11 +303,11 @@ namespace DiffNum {
 		}
 
 
-		__host__ __device__ static DiffArrayVar_cuda<n_type, size> Pow(const DiffArrayVar_cuda<n_type, size>& _X, unsigned int _Y) {
-			DiffArrayVar_cuda<n_type, size> ret;
+		__host__ __device__ static s_type Pow(const s_type& _X, unsigned int _Y) {
+			s_type ret;
 			ret.value = _Y & 1 ? _X.value : n_type(1);
 
-			n_type p = _X.value * _X.value, _Yn = n_type(_Y);
+			d_type p = _X.value * _X.value, _Yn = n_type(_Y);
 			_Y >>= 1;
 			while (_Y) {
 				if (_Y & 1)
@@ -319,7 +322,7 @@ namespace DiffNum {
 		}
 
 
-		__host__ __device__ static DiffArrayVar_cuda<n_type, size> Max(const DiffArrayVar_cuda<n_type, size>& _X, const DiffArrayVar_cuda<n_type, size>& _Y) {
+		__host__ __device__ static s_type Max(const s_type& _X, const s_type& _Y) {
 			if (_X.value > _Y.value) {
 				return _X;
 			}

@@ -2,8 +2,8 @@
 
 #include <cuda_runtime.h>
 #include <DiffBasic.h>
-#include <DiffVar_cuda.cuh>
-#include <DiffMath_cuda.cuh>
+#include <DiffVar_cuda.h>
+#include <DiffMath_cuda.h>
 
 
 namespace DiffNum {

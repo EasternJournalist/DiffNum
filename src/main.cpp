@@ -11,6 +11,8 @@
 #ifdef DIFFNUM_WITH_CUDA
 #include <DiffNum_cuda.h>
 #include <cuda_test.h>
+
+
 #endif
 
 
@@ -30,7 +32,6 @@ int main()
 
     std::cout << d << std::endl;
    
-
 
     // Example 2. Vec v1 v2. v1[2] is the variable. q = v1 dot v2.
     Vec<ddouble, 3> v1, v2;
@@ -54,21 +55,18 @@ int main()
     DiffManager<float> manager;
 
     // Example 4. Evaluating secondary derivative.
-    using ddouble_arr = DiffArrayVar<double, 2>;
-    using dddouble_arr = DiffArrayVar<ddouble_arr, 2>;
-
-    using ddmath_arr = Math<dddouble_arr>;
+    using ddmath_arr = Math<dddouble_arr<2>>;
     
-    dddouble_arr x = ddouble_arr(2.), y = ddouble_arr(3.);
-    x.SetVar(0); x.value.SetVar(0);
-    y.SetVar(1), y.value.SetVar(1);
+    dddouble_arr<2> x = 2., y = 3.;
+    
+    x.SetVar(0); y.SetVar(1),
 
     std::cout << "x := 2, y := 3" << std::endl;
-    std::cout << "x^3 + y^2 = ";
-    std::cout << ddmath_arr::Pow(x, 3) + ddmath_arr::Pow(y, 2) << std::endl;
+    std::cout << "x^3 + 2*y^2 = ";
+    std::cout << ddmath_arr::Pow(x, unsigned int(3)) + 2. * ddmath_arr::Pow(y, unsigned int(2)) << std::endl;
 
-    std::cout << "x + x^3*y + x*y + y = ";
-    std::cout <<  x + ddmath_arr::Pow(x, 3) * y + x * y + y << std::endl;
+    std::cout << "x + x^3*y + x*y + 2*y = ";
+    std::cout <<  x + ddmath_arr::Pow(x, unsigned int(3)) * y + x * y + 2. * y << std::endl;
 
 
     // Example 5. Implement in CUDA kernal.

@@ -2,6 +2,7 @@
 #include <iostream>
 #include <DiffNum_cuda.h>
 #include <cuda_test.h>
+#include <vector>
 
 using namespace DiffNum;
 
