@@ -36,9 +36,6 @@
     <ClInclude Include="include\DiffNum.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="include\cuda_test.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="include\DiffNum_cuda.h">
       <Filter>头文件\cuda_impl</Filter>
     </ClInclude>
@@ -54,14 +51,17 @@
     <ClInclude Include="include\DiffVar_arr.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="example\cuda_test.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <CudaCompile Include="src\cuda_test.cu">
+    <CudaCompile Include="example\cuda_test.cu">
       <Filter>源文件</Filter>
     </CudaCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\main.cpp">
+    <ClCompile Include="example\main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
