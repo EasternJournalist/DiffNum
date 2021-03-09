@@ -50,6 +50,26 @@ namespace DiffNum {
 			return value == _Right.value;
 		}
 
+		bool operator <(const n_type _Right) const {
+			return value < _Right;
+		}
+
+		bool operator <=(const n_type _Right) const {
+			return value <= _Right;
+		}
+
+		bool operator >(const n_type _Right) const {
+			return value > _Right;
+		}
+
+		bool operator >=(const n_type _Right) const {
+			return value >= _Right;
+		}
+
+		bool operator ==(const n_type _Right) const {
+			return value == _Right;
+		}
+
 		const d_type& operator[](size_t var_idx) const {
 			return gradient[var_idx];
 		}
@@ -337,6 +357,26 @@ namespace DiffNum {
 
 		bool operator ==(const s_type& _Right) const {
 			return getValue() == _Right.getValue();
+		}
+
+		bool operator <(const n_type _Right) const {
+			return getValue() < _Right;
+		}
+
+		bool operator <=(const n_type _Right) const {
+			return getValue() <= _Right;
+		}
+
+		bool operator >(const n_type _Right) const {
+			return getValue() > _Right;
+		}
+
+		bool operator >=(const n_type _Right) const {
+			return getValue() >= _Right;
+		}
+
+		bool operator ==(const n_type _Right) const {
+			return getValue() == _Right;
 		}
 
 		const d_type& operator[](size_t var_idx) const {

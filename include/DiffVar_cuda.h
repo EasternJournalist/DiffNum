@@ -75,6 +75,26 @@ namespace DiffNum {
 			return value == _Right.value;
 		}
 
+		__host__ __device__ bool operator <(const n_type _Right) const {
+			return value < _Right;
+		}
+
+		__host__ __device__ bool operator <=(const n_type _Right) const {
+			return value <= _Right;
+		}
+
+		__host__ __device__ bool operator >(const n_type _Right) const {
+			return value > _Right;
+		}
+
+		__host__ __device__ bool operator >=(const n_type _Right) const {
+			return value >= _Right;
+		}
+
+		__host__ __device__ bool operator ==(const n_type _Right) const {
+			return value == _Right;
+		}
+
 		__host__ __device__ const d_type& operator[](size_t var_idx) const {
 			return gradient[var_idx];
 		}
@@ -324,6 +344,26 @@ namespace DiffNum {
 
 		__host__ __device__ const d_type& operator[](size_t var_idx) const {
 			return gradient[var_idx];
+		}
+
+		__host__ __device__ bool operator <(const n_type _Right) const {
+			return getValue() < _Right;
+		}
+
+		__host__ __device__ bool operator <=(const n_type _Right) const {
+			return getValue() <= _Right;
+		}
+
+		__host__ __device__ bool operator >(const n_type _Right) const {
+			return getValue() > _Right;
+		}
+
+		__host__ __device__ bool operator >=(const n_type _Right) const {
+			return getValue() >= _Right;
+		}
+
+		__host__ __device__ bool operator ==(const n_type _Right) const {
+			return getValue() == _Right;
 		}
 
 		__host__ __device__ DiffVar_cuda() {}
