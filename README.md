@@ -1,5 +1,5 @@
 # DiffNum
- A light-weighted head-only c++ library for differentiable programming. Unlike the popular TensorFlow and Torch, DiffNum is implemented  simply with forward inference with chain rule, instead of computation graph, source code transformation or other high level autograd algorithms. Thus it takes few efforts to implement and apply.
+ A light-weight head-only c++ library for differentiable programming. Unlike the popular TensorFlow and Torch, DiffNum is implemented  simply with forward inference with chain rule, instead of computation graph, source code transformation or other high level autograd algorithms. Thus it takes few efforts to implement and apply.
 
 ## Features
 
@@ -46,7 +46,7 @@
   int main(void) {
       dfloat<3> u = f(3.7, 4.0, 4.3);
       std::cout << u << std::endl; 	// DiffNum can be directly outputted to ostream.
-      //	Output: -23.22(14.8, -12.9, -12)
+      // Output: -23.22(14.8, -12.9, -12)
       // The first real number is the value of u. The following vector is the gradient to (x, y, z)
       return 0;
   }
