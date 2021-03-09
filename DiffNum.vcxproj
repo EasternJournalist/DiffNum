@@ -162,7 +162,6 @@
     <ClInclude Include="include\DiffTensor.h" />
     <ClInclude Include="include\DiffVar_vec.h" />
     <ClInclude Include="include\DiffVar_cuda.h" />
-    <ClInclude Include="include\Tensor.h" />
     <ClInclude Include="include\Vec.h" />
   </ItemGroup>
   <ItemGroup>
@@ -170,7 +169,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\Tensor.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
