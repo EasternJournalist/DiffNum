@@ -1,7 +1,7 @@
 ﻿
 
 // By defining this macro, DiffNum_cuda will be tested in main.cpp. Make sure you have installed CUDA toolkits.
-// If CUDA is not installed on your device, undefine this macro to disable it.
+// If CUDA is not installed on your device, undefine DIFFNUM_WITH_CUDA and define DIFFNUM_NO_CUDA
 #define DIFFNUM_WITH_CUDA   
 
 #include <iostream>
@@ -9,10 +9,7 @@
 #include <Vec.h>
 
 #ifdef DIFFNUM_WITH_CUDA
-#include <DiffNum_cuda.h>
 #include <cuda_test.h>
-
-
 #endif
 
 
@@ -21,6 +18,8 @@ using namespace DiffNum;
 
 int main()
 {
+    myarray<float, 3> nowke;
+    nowke[2] = 1.f;
     using dmath = Math<ddouble<0>>;
     // Example 1. a, b are variables. c = a+b; d
     ddouble<0> a = 2., b = 3.;
@@ -32,7 +31,7 @@ int main()
 
     std::cout << d << std::endl;
    
-
+    
     // Example 2. Vec v1 v2. v1[2] is the variable. q = v1 dot v2.
     Vec<ddouble<0>, 3> v1, v2;
 
@@ -64,12 +63,12 @@ int main()
     std::cout << ddmath::Pow(x, unsigned int(3)) + 2. * ddmath::Pow(y, unsigned int(2)) << std::endl;
 
     std::cout << "x + x^3*y + x*y + 2*y = ";
-    std::cout <<  x + ddmath::Pow(x, unsigned int(3)) * y + x * y + 2. * y << std::endl;
+    std::cout <<  1. - x + ddmath::Pow(x, unsigned int(3)) * y + x * y + 2. * y << std::endl;
 
     // Example 5. Implement in CUDA kernal.
 #ifdef DIFFNUM_WITH_CUDA
     std::cout << "\n *** Test on CUDA *** \n u := 1, v := Pi / 3" << std::endl;
-    ddouble_cuda<2> u = 1., v = Pi<double> / 3.;
+    ddouble<2> u = 1., v = Pi<double> / 3.;
     u.setVar(0); v.setVar(1);
     std::cout << "u + sin(v) = " << cuda_test(u, v) << std::endl;
 #endif

@@ -330,8 +330,9 @@ namespace DiffNum {
 		DiffVar() {}
 		DiffVar(const n_type value) : value(value) {}
 		DiffVar(n_type value, size_t num_var) :value(value), gradient(num_var) {}
-		DiffVar(n_type value, const std::vector<d_type>& gradient) :value(value), gradient(gradient) {}
-		DiffVar(n_type value, size_t num_var, size_t as_var_idx) : value(value), gradient(num_var, n_type(0)) {
+		DiffVar(const d_type& value, const std::vector<d_type>& gradient) :value(value), gradient(gradient) {}
+		DiffVar(n_type value, size_t num_var, size_t as_var_idx) : value(d_type(value)), gradient(num_var, d_type(0)) {
+			this->value.setVar(num_var, as_var_idx);
 			gradient[as_var_idx] = n_type(1);
 		}
 
@@ -397,13 +398,13 @@ namespace DiffNum {
 
 		void setVar(const size_t num_var) {
 			gradient.clear();
-			gradient.resize(num_var, n_type(0));
+			gradient.resize(num_var, d_type(0));
 		}
 
 		void setVar(const size_t num_var, const size_t as_var_idx) {
 			gradient.clear();
 			value.setVar(num_var, as_var_idx);
-			gradient.resize(num_var, n_type(0));
+			gradient.resize(num_var, d_type(0));
 			gradient[as_var_idx] = n_type(1);
 		}
 
@@ -414,8 +415,10 @@ namespace DiffNum {
 				return operator+(_Right.value);
 			assert(gradient.size() == _Right.gradient.size());
 
-			s_type ret(value + _Right.value, gradient.size());
-
+			s_type ret;
+			ret.value = value + _Right.value;
+			ret.gradient.resize(gradient.size());
+			
 			for (size_t i = 0; i < gradient.size(); i++) {
 				ret.gradient[i] = gradient[i] + _Right.gradient[i];
 			}
@@ -429,7 +432,9 @@ namespace DiffNum {
 				return operator-(_Right.value);
 			assert(gradient.size() == _Right.gradient.size());
 
-			s_type ret(value - _Right.value, gradient.size());
+			s_type ret; 
+			ret.value = value - _Right.value;
+			ret.gradient.resize(gradient.size());
 
 			for (size_t i = 0; i < gradient.size(); i++) {
 				ret.gradient[i] = gradient[i] - _Right.gradient[i];
@@ -438,7 +443,10 @@ namespace DiffNum {
 		}
 
 		s_type operator-() const {
-			s_type ret(-value, gradient.size());
+			s_type ret;
+			ret.value = -value;
+			ret.gradient.resize(gradient.size());
+
 			for (size_t i = 0; i < gradient.size(); i++) {
 				ret.gradient[i] = -gradient[i];
 			}
@@ -452,7 +460,9 @@ namespace DiffNum {
 				return operator*(_Right.value);
 			assert(gradient.size() == _Right.gradient.size());
 
-			s_type ret(value * _Right.value, gradient.size());
+			s_type ret;
+			ret.value = value * _Right.value;
+			ret.gradient.resize(gradient.size());
 
 			for (size_t i = 0; i < gradient.size(); i++) {
 				ret.gradient[i] = gradient[i] * _Right.value + value * _Right.gradient[i];
@@ -467,7 +477,9 @@ namespace DiffNum {
 				return operator/(_Right.value);
 			assert(gradient.size() == _Right.gradient.size());
 
-			s_type ret(value / _Right.value, gradient.size());
+			s_type ret;
+			ret.value = value / _Right.value;
+			ret.gradient.resize(gradient.size());
 
 			for (size_t i = 0; i < gradient.size(); i++) {
 				ret.gradient[i] = (gradient[i] * _Right.value - value * _Right.gradient[i]) / (_Right.value * _Right.value);
@@ -490,7 +502,9 @@ namespace DiffNum {
 		}
 
 		static friend inline s_type operator-(const n_type _Left, const s_type& _Right) {
-			s_type ret(_Left - _Right.value, _Right.gradient.size());
+			s_type ret;
+			ret.value = _Left - _Right.value;
+			ret.gradient.resize(_Right.gradient.size());
 
 			for (size_t i = 0; i < _Right.gradient.size(); i++)
 				ret.gradient[i] = -_Right.gradient[i];
@@ -498,7 +512,9 @@ namespace DiffNum {
 		}
 
 		s_type operator*(const n_type _Right) const {
-			s_type ret(value * _Right, gradient.size());
+			s_type ret;
+			ret.value = value * _Right;
+			ret.gradient.resize(gradient.size());
 
 			for (size_t i = 0; i < gradient.size(); i++) {
 				ret.gradient[i] = gradient[i] * _Right;
@@ -511,7 +527,9 @@ namespace DiffNum {
 		}
 
 		s_type operator/(const n_type _Right) const {
-			s_type ret(value / _Right, gradient.size());
+			s_type ret;
+			ret.value = value / _Right;
+			ret.gradient.resize(gradient.size());
 
 			for (size_t i = 0; i < gradient.size(); i++) {
 				ret.gradient[i] = gradient[i] / _Right;
@@ -520,7 +538,9 @@ namespace DiffNum {
 		}
 
 		static friend inline s_type operator/(const n_type _Left, const s_type& _Right) {
-			s_type ret(_Left / _Right.value, _Right.gradient.size());
+			s_type ret;
+			ret.value = _Left / _Right.value;
+			ret.gradient.resize(_Right.gradient.size());
 
 			for (size_t i = 0; i < _Right.gradient.size(); i++)
 				ret.gradient[i] = -(_Left / (_Right.value * _Right.value)) * _Right.gradient[i];

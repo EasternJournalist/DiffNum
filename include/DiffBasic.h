@@ -1,5 +1,17 @@
 #pragma once
 
+#ifndef DIFFNUM_NO_CUDA
+#define DIFFNUM_WITH_CUDA
+#endif
+#ifdef DIFFNUM_WITH_CUDA
+#include <cuda_runtime.h>
+#define __HOST_DEVICE__ __host__ __device__
+#define __HOST_ONLY__ __host__
+#else
+#define __HOST_DEVICE__
+#define __HOST_ONLY__
+#endif
+
 namespace DiffNum {
 	const int __NaNd = 0xFFC00000, __Infinityd = 0x7F800000, __Neg_Infinityd = 0xFF800000;
 	const __int64 __NaNf = 0xFFF8000000000000, __Infinityf = 0x7FF0000000000000, __Neg_Infinityf = 0xFFF0000000000000;

@@ -156,11 +156,8 @@
     <ClInclude Include="include\DiffBasic.h" />
     <ClInclude Include="include\DiffManager.h" />
     <ClInclude Include="include\DiffMath.h" />
-    <ClInclude Include="include\DiffMath_cuda.h" />
     <ClInclude Include="include\DiffNum.h" />
-    <ClInclude Include="include\DiffNum_cuda.h" />
     <ClInclude Include="include\DiffVar_vec.h" />
-    <ClInclude Include="include\DiffVar_cuda.h" />
     <ClInclude Include="include\Vec.h" />
   </ItemGroup>
   <ItemGroup>

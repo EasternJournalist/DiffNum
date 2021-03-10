@@ -1,5 +1,5 @@
 #pragma once
 
-#include <DiffNum_cuda.h>
+#include <DiffNum.h>
 
-DiffNum::ddouble_cuda<2> cuda_test(DiffNum::ddouble_cuda<2> a, DiffNum::ddouble_cuda<2> b);
+DiffNum::ddouble<2> cuda_test(DiffNum::ddouble<2> a, DiffNum::ddouble<2> b);

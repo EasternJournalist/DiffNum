@@ -33,7 +33,7 @@ namespace DiffNum {
 		/// <param name="_Size">Number of variables to be added </param>
 		/// <returns>The index of the first variable </returns>
 		size_t AddVariables(DiffVar<n_type, 0>* _Begin, size_t _Size) {
-			for (DiffVar<n_type>* _var = _Begin; _var < _Begin + _Size; _var++) {
+			for (DiffVar<n_type, 0>* _var = _Begin; _var < _Begin + _Size; _var++) {
 				indices[_var] = variables.size();
 				variables.push_back(_var);
 			}
