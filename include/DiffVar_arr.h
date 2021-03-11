@@ -3,58 +3,12 @@
 #include <assert.h>
 #include <ostream>
 #include <sstream>
-#include <DiffBasic.h>
+#include <Common.h>
+#include <myarray.h>
 
 namespace DiffNum {
 
-	template<class T, size_t N>
-	struct myarray {
 
-		T _Elems[N];
-
-		__HOST_DEVICE__ myarray() {}
-
-		__HOST_DEVICE__ myarray(const myarray<T, N>& _Right) {
-			for (size_t i = 0; i < N; i++)
-				_Elems[i] = _Right._Elems[i];
-		}
-
-		__HOST_DEVICE__ const T& operator[](const size_t _Pos) const {
-			assert(_Pos < N);
-			return _Elems[_Pos];
-		}
-
-		__HOST_DEVICE__ T& operator[](const size_t _Pos) {
-			assert(_Pos < N);
-			return _Elems[_Pos];
-		}
-
-		__HOST_DEVICE__ const myarray<T, N>& operator=(const myarray<T, N>& _Right) {
-			for (size_t i = 0; i < N; i++)
-				_Elems[i] = _Right._Elems[i];
-			return *this;
-		}
-
-		__HOST_DEVICE__ const T& front() const noexcept {
-			return _Elems[0];
-		}
-
-		__HOST_DEVICE__ T& front() noexcept {
-			return _Elems[0];
-		}
-
-		__HOST_DEVICE__ const T& back() const noexcept {
-			return _Elems[N - 1];
-		}
-
-		__HOST_DEVICE__ T& back() noexcept {
-			return _Elems[N - 1];
-		}
-
-		__HOST_DEVICE__ constexpr size_t size() {
-			return N - 1;
-		}
-	};
 	/// <summary>
 	/// Differentiable varible (fixed variable to be studied, and faster). The numerical value and the derivatives will be automatically evaluated simultaneously.
 	/// The gradients on target variable must be specified before any computation. You may use DiffVar.setVar or 
@@ -74,7 +28,7 @@ namespace DiffNum {
 		__HOST_DEVICE__ DiffVar(const n_type value) : value(value) {
 			for (size_t i = 0; i < size; i++) gradient[i] = n_type(0);
 		}
-		__HOST_DEVICE__ DiffVar(n_type value, const myarray<n_type, size>& gradient) : value(value), gradient(gradient) {}
+		__HOST_DEVICE__ DiffVar(n_type value, const Common::array<n_type, size>& gradient) : value(value), gradient(gradient) {}
 		__HOST_DEVICE__ DiffVar(n_type value, size_t as_var_idx) : value(value) {
 			for (size_t i = 0; i < size; i++) gradient[i] = n_type(0);
 			gradient[as_var_idx] = n_type(1);
@@ -329,7 +283,7 @@ namespace DiffNum {
 		}
 
 		d_type value;
-		myarray<d_type, size> gradient;
+		Common::array<d_type, size> gradient;
 	};
 
 
@@ -346,7 +300,7 @@ namespace DiffNum {
 		__HOST_DEVICE__ DiffVar(const n_type value) : value(value) {
 			for (size_t i = 0; i < size; i++) gradient[i] = n_type(0);
 		}
-		__HOST_DEVICE__ DiffVar(const d_type& value, const myarray<d_type, size>& gradient) : value(value), gradient(gradient) {}
+		__HOST_DEVICE__ DiffVar(const d_type& value, const Common::array<d_type, size>& gradient) : value(value), gradient(gradient) {}
 		__HOST_DEVICE__ DiffVar(n_type value, size_t as_var_idx) : value(value) {
 			value.setVar(as_var_idx);
 			for (size_t i = 0; i < size; i++) gradient[i] = n_type(0);
@@ -601,7 +555,7 @@ namespace DiffNum {
 		}
 
 		d_type value;
-		myarray<d_type, size> gradient;
+		Common::array<d_type, size> gradient;
 	};
 
 	template<typename d_type, size_t size>

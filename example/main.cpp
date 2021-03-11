@@ -15,10 +15,12 @@
 
 
 using namespace DiffNum;
+using namespace Common;
 
 int main()
 {
-    myarray<float, 3> nowke;
+
+    array<float, 3> nowke;
     nowke[2] = 1.f;
     using dmath = Math<ddouble<0>>;
     // Example 1. a, b are variables. c = a+b; d
@@ -33,7 +35,7 @@ int main()
    
     
     // Example 2. Vec v1 v2. v1[2] is the variable. q = v1 dot v2.
-    Vec<ddouble<0>, 3> v1, v2;
+    vec<ddouble<0>, 3> v1, v2;
 
     v1[0] = 8.7;
     v1[1] = 4.3;
@@ -46,7 +48,7 @@ int main()
     // Set v1[2] as the only variable.
     v1[2].setVar(1, 0);
 
-    auto q = Vec<ddouble<0>, 3>::dot(v1, v2);
+    auto q = vec<ddouble<0>, 3>::dot(v1, v2);
 
     std::cout << q << std::endl;
     std::cout << std::endl;

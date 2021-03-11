@@ -24,9 +24,6 @@
     <ClInclude Include="include\DiffManager.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="include\DiffBasic.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="include\DiffNum.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -37,6 +34,15 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="example\cuda_test.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\myarray.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Mat.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Common.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

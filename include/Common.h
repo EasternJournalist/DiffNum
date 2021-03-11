@@ -12,7 +12,8 @@
 #define __HOST_ONLY__
 #endif
 
-namespace DiffNum {
+
+namespace Common {
 	const int __NaNd = 0xFFC00000, __Infinityd = 0x7F800000, __Neg_Infinityd = 0xFF800000;
 	const __int64 __NaNf = 0xFFF8000000000000, __Infinityf = 0x7FF0000000000000, __Neg_Infinityf = 0xFFF0000000000000;
 
@@ -40,6 +41,10 @@ namespace DiffNum {
 	template <> const float Pi<float> = static_cast<float>(3.1415926535897932385);
 	template <> const double Pi<double> = static_cast<double>(3.1415926535897932385);
 
+}
+
+
+namespace DiffNum {
 	template <class d_type, size_t size> struct DiffVar;
 	template<class n_type> class Math;
 }

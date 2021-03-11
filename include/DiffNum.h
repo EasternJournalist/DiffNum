@@ -3,7 +3,7 @@
  * By including this file, all headers needed for differentiable variable are included.
  * (Vec, Mat, and Tensor are not contained. )
  */
-#include <DiffBasic.h>
+#include <Common.h>
 #include <DiffVar_arr.h>
 #include <DiffVar_vec.h>
 #include <DiffMath.h>

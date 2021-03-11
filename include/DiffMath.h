@@ -1,12 +1,12 @@
 #pragma once
 
-#include <DiffBasic.h>
+#include <Common.h>
 #include <DiffVar_arr.h>
 #include <DiffVar_vec.h>
 #include <math.h>
 
-namespace DiffNum {
-
+namespace Common {
+	using namespace DiffNum;
 
 	template <class d_type, size_t size> const DiffVar<d_type, size> NaN<DiffVar<d_type, size>> = DiffVar<d_type, size>(NaN<typename DiffVar<d_type, size>::n_type>);
 
@@ -15,12 +15,9 @@ namespace DiffNum {
 	template <class d_type, size_t size> const DiffVar<d_type, size> NegInf<DiffVar<d_type, size>> = DiffVar<d_type, size>(NegInf<typename DiffVar<d_type, size>::n_type>);
 
 	template <class d_type, size_t size> const DiffVar<d_type, size> Pi<DiffVar<d_type, size>> = DiffVar<d_type, size>(Pi<typename DiffVar<d_type, size>::n_type>);
+}
 
-	/// <summary>
-	/// Static mathematical functions for DiffNum.
-	/// </summary>
-	/// <typeparam name="n_type"></typeparam>
-	
+namespace DiffNum {
 
 	template<>
 	class Math<float> {
