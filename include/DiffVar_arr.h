@@ -16,7 +16,7 @@ namespace DiffNum {
 	/// </summary>
 	/// <typeparam name="d_type">The type of numerical value. eg. float, double</typeparam>
 	/// <typeparam name="size"> The size of gradient vector </typeparam>
-	template <class d_type, size_t size>
+	template <class d_type, ptrdiff_t size>
 	struct DiffVar {
 		static_assert(size > 0, "The size of array-like DiffVar gradients must be a positive integer.\
 			Do you refer to vector-like DiffVar? You may forget to include \"DiffVar_vec.h\".");
@@ -26,11 +26,11 @@ namespace DiffNum {
 
 		__HOST_DEVICE__ DiffVar() {}
 		__HOST_DEVICE__ DiffVar(const n_type value) : value(value) {
-			for (size_t i = 0; i < size; i++) gradient[i] = n_type(0);
+			for (ptrdiff_t i = 0; i < size; i++) gradient[i] = n_type(0);
 		}
 		__HOST_DEVICE__ DiffVar(n_type value, const Common::array<n_type, size>& gradient) : value(value), gradient(gradient) {}
-		__HOST_DEVICE__ DiffVar(n_type value, size_t as_var_idx) : value(value) {
-			for (size_t i = 0; i < size; i++) gradient[i] = n_type(0);
+		__HOST_DEVICE__ DiffVar(n_type value, ptrdiff_t as_var_idx) : value(value) {
+			for (ptrdiff_t i = 0; i < size; i++) gradient[i] = n_type(0);
 			gradient[as_var_idx] = n_type(1);
 		}
 
@@ -58,6 +58,10 @@ namespace DiffNum {
 			return value == _Right.value;
 		}
 
+		__HOST_DEVICE__ bool operator !=(const s_type& _Right) const {
+			return value != _Right.value;
+		}
+
 		__HOST_DEVICE__ bool operator <(const n_type _Right) const {
 			return value < _Right;
 		}
@@ -78,7 +82,11 @@ namespace DiffNum {
 			return value == _Right;
 		}
 
-		__HOST_DEVICE__ const d_type& operator[](size_t var_idx) const {
+		__HOST_DEVICE__ bool operator !=(const n_type _Right) const {
+			return value != _Right;
+		}
+
+		__HOST_DEVICE__ const d_type& operator[](ptrdiff_t var_idx) const {
 			return gradient[var_idx];
 		}
 
@@ -90,12 +98,12 @@ namespace DiffNum {
 
 		__HOST_DEVICE__ const s_type& operator=(const n_type _Right) {
 			value = _Right;
-			for (size_t i = 0; i < size; i++) gradient[i] = n_type(0);
+			for (ptrdiff_t i = 0; i < size; i++) gradient[i] = n_type(0);
 			return *this;
 		}
 
-		__HOST_DEVICE__ void setVar(const size_t as_var_idx) {
-			for (size_t i = 0; i < size; i++) gradient[i] = n_type(0);
+		__HOST_DEVICE__ void setVar(const ptrdiff_t as_var_idx) {
+			for (ptrdiff_t i = 0; i < size; i++) gradient[i] = n_type(0);
 			gradient[as_var_idx] = n_type(1);
 		}
 
@@ -104,7 +112,7 @@ namespace DiffNum {
 			s_type ret;
 			ret.value = value + _Right.value;
 
-			for (size_t i = 0; i < size; i++) {
+			for (ptrdiff_t i = 0; i < size; i++) {
 				ret.gradient[i] = gradient[i] + _Right.gradient[i];
 			}
 			return ret;
@@ -114,7 +122,7 @@ namespace DiffNum {
 			s_type ret;
 			ret.value = value - _Right.value;
 
-			for (size_t i = 0; i < size; i++) {
+			for (ptrdiff_t i = 0; i < size; i++) {
 				ret.gradient[i] = gradient[i] - _Right.gradient[i];
 			}
 			return ret;
@@ -124,7 +132,7 @@ namespace DiffNum {
 			s_type ret;
 			ret.value = -value;
 
-			for (size_t i = 0; i < size; i++) {
+			for (ptrdiff_t i = 0; i < size; i++) {
 				ret.gradient[i] = -gradient[i];
 			}
 			return ret;
@@ -134,7 +142,7 @@ namespace DiffNum {
 			s_type ret;
 			ret.value = value * _Right.value;
 
-			for (size_t i = 0; i < size; i++) {
+			for (ptrdiff_t i = 0; i < size; i++) {
 				ret.gradient[i] = gradient[i] * _Right.value + value * _Right.gradient[i];
 			}
 			return ret;
@@ -144,7 +152,7 @@ namespace DiffNum {
 			s_type ret;
 			ret.value = value / _Right.value;
 
-			for (size_t i = 0; i < size; i++) {
+			for (ptrdiff_t i = 0; i < size; i++) {
 				ret.gradient[i] = (gradient[i] * _Right.value - value * _Right.gradient[i]) / (_Right.value * _Right.value);
 			}
 			return ret;
@@ -168,7 +176,7 @@ namespace DiffNum {
 			s_type ret;
 			ret.value = _Left - _Right.value;
 
-			for (size_t i = 0; i < size; i++)
+			for (ptrdiff_t i = 0; i < size; i++)
 				ret.gradient[i] = -_Right.gradient[i];
 			return ret;
 		}
@@ -177,7 +185,7 @@ namespace DiffNum {
 			s_type ret;
 			ret.value = value * _Right;
 
-			for (size_t i = 0; i < size; i++) {
+			for (ptrdiff_t i = 0; i < size; i++) {
 				ret.gradient[i] = gradient[i] * _Right;
 			}
 			return ret;
@@ -191,7 +199,7 @@ namespace DiffNum {
 			s_type ret;
 			ret.value = value / _Right;
 
-			for (size_t i = 0; i < size; i++) {
+			for (ptrdiff_t i = 0; i < size; i++) {
 				ret.gradient[i] = gradient[i] / _Right;
 			}
 			return ret;
@@ -201,14 +209,14 @@ namespace DiffNum {
 			s_type ret;
 			ret.value = _Left / _Right.value;
 
-			for (size_t i = 0; i < size; i++)
+			for (ptrdiff_t i = 0; i < size; i++)
 				ret.gradient[i] = -(_Left / (_Right.value * _Right.value)) * _Right.gradient[i];
 			return ret;
 		}
 
 		__HOST_DEVICE__ const s_type& operator+=(const s_type& _Right) {
 			value += _Right.value;
-			for (size_t i = 0; i < size; i++) {
+			for (ptrdiff_t i = 0; i < size; i++) {
 				gradient[i] += _Right.gradient[i];
 			}
 			return *this;
@@ -216,14 +224,14 @@ namespace DiffNum {
 
 		__HOST_DEVICE__ const s_type& operator-=(const s_type& _Right) {
 			value -= _Right.value;
-			for (size_t i = 0; i < size; i++) {
+			for (ptrdiff_t i = 0; i < size; i++) {
 				gradient[i] -= _Right.gradient[i];
 			}
 			return *this;
 		}
 
 		__HOST_DEVICE__ const s_type& operator*=(const s_type& _Right) {
-			for (size_t i = 0; i < size; i++) {
+			for (ptrdiff_t i = 0; i < size; i++) {
 				gradient[i] = gradient[i] * _Right.value + value * _Right.gradient[i];
 			}
 			value *= _Right.value;
@@ -231,7 +239,7 @@ namespace DiffNum {
 		}
 
 		__HOST_DEVICE__ const s_type& operator/=(const s_type& _Right) {
-			for (size_t i = 0; i < size; i++) {
+			for (ptrdiff_t i = 0; i < size; i++) {
 				gradient[i] = (gradient[i] * _Right.value - value * _Right.gradient[i]) / (_Right.value * _Right.value);
 			}
 			value /= _Right.value;
@@ -249,7 +257,7 @@ namespace DiffNum {
 		}
 
 		__HOST_DEVICE__ const s_type& operator*=(const n_type _Right) {
-			for (size_t i = 0; i < size; i++) {
+			for (ptrdiff_t i = 0; i < size; i++) {
 				gradient[i] *= _Right;
 			}
 			value *= _Right;
@@ -257,7 +265,7 @@ namespace DiffNum {
 		}
 
 		__HOST_DEVICE__ const s_type& operator/=(const n_type _Right) {
-			for (size_t i = 0; i < size; i++) {
+			for (ptrdiff_t i = 0; i < size; i++) {
 				gradient[i] /= _Right;
 			}
 			value /= _Right;
@@ -267,7 +275,7 @@ namespace DiffNum {
 		__HOST_ONLY__ const std::string toString() const {
 			std::stringstream ss;
 			ss << value << "(";
-			for (size_t i = 0; i < size - 1; i++)
+			for (ptrdiff_t i = 0; i < size - 1; i++)
 				ss << gradient[i] << ", ";
 			ss << gradient.back() << ")";
 			return ss.str();
@@ -276,7 +284,7 @@ namespace DiffNum {
 		__HOST_ONLY__ const std::string toString_grad() const {
 			std::stringstream ss;
 			ss << "(";
-			for (size_t i = 0; i < size - 1; i++)
+			for (ptrdiff_t i = 0; i < size - 1; i++)
 				ss << gradient[i] << ", ";
 			ss << gradient.back() << ")";
 			return ss.str();
@@ -287,7 +295,7 @@ namespace DiffNum {
 	};
 
 
-	template <class r_type, size_t size, size_t r_size>
+	template <class r_type, ptrdiff_t size, ptrdiff_t r_size>
 	struct DiffVar<DiffVar<r_type, r_size>, size> {
 		static_assert(size == r_size, "The sizes of gradients must be the same when using DiffVar recursively.");
 
@@ -298,12 +306,12 @@ namespace DiffNum {
 
 		__HOST_DEVICE__ DiffVar() {}
 		__HOST_DEVICE__ DiffVar(const n_type value) : value(value) {
-			for (size_t i = 0; i < size; i++) gradient[i] = n_type(0);
+			for (ptrdiff_t i = 0; i < size; i++) gradient[i] = n_type(0);
 		}
 		__HOST_DEVICE__ DiffVar(const d_type& value, const Common::array<d_type, size>& gradient) : value(value), gradient(gradient) {}
-		__HOST_DEVICE__ DiffVar(n_type value, size_t as_var_idx) : value(value) {
-			value.setVar(as_var_idx);
-			for (size_t i = 0; i < size; i++) gradient[i] = n_type(0);
+		__HOST_DEVICE__ DiffVar(n_type value, ptrdiff_t as_var_idx) : value(value) {
+			this->value.setVar(as_var_idx);
+			for (ptrdiff_t i = 0; i < size; i++) gradient[i] = n_type(0);
 			gradient[as_var_idx] = n_type(1);
 		}
 
@@ -351,7 +359,7 @@ namespace DiffNum {
 			return getValue() == _Right;
 		}
 
-		__HOST_DEVICE__ const d_type& operator[](size_t var_idx) const {
+		__HOST_DEVICE__ const d_type& operator[](ptrdiff_t var_idx) const {
 			return gradient[var_idx];
 		}
 
@@ -363,13 +371,13 @@ namespace DiffNum {
 
 		__HOST_DEVICE__ const s_type& operator=(const n_type _Right) {
 			value = _Right;
-			for (size_t i = 0; i < size; i++) gradient[i] = n_type(0);
+			for (ptrdiff_t i = 0; i < size; i++) gradient[i] = n_type(0);
 			return *this;
 		}
 
-		__HOST_DEVICE__ void setVar(const size_t as_var_idx) {
+		__HOST_DEVICE__ void setVar(const ptrdiff_t as_var_idx) {
 			value.setVar(as_var_idx);
-			for (size_t i = 0; i < size; i++) gradient[i] = n_type(0);
+			for (ptrdiff_t i = 0; i < size; i++) gradient[i] = n_type(0);
 			gradient[as_var_idx] = n_type(1);
 		}
 
@@ -378,7 +386,7 @@ namespace DiffNum {
 			s_type ret;
 			ret.value = value + _Right.value;
 
-			for (size_t i = 0; i < size; i++) {
+			for (ptrdiff_t i = 0; i < size; i++) {
 				ret.gradient[i] = gradient[i] + _Right.gradient[i];
 			}
 			return ret;
@@ -388,7 +396,7 @@ namespace DiffNum {
 			s_type ret;
 			ret.value = value - _Right.value;
 
-			for (size_t i = 0; i < size; i++) {
+			for (ptrdiff_t i = 0; i < size; i++) {
 				ret.gradient[i] = gradient[i] - _Right.gradient[i];
 			}
 			return ret;
@@ -398,7 +406,7 @@ namespace DiffNum {
 			s_type ret;
 			ret.value = -value;
 
-			for (size_t i = 0; i < size; i++) {
+			for (ptrdiff_t i = 0; i < size; i++) {
 				ret.gradient[i] = -gradient[i];
 			}
 			return ret;
@@ -408,7 +416,7 @@ namespace DiffNum {
 			s_type ret;
 			ret.value = value * _Right.value;
 
-			for (size_t i = 0; i < size; i++) {
+			for (ptrdiff_t i = 0; i < size; i++) {
 				ret.gradient[i] = gradient[i] * _Right.value + value * _Right.gradient[i];
 			}
 			return ret;
@@ -418,7 +426,7 @@ namespace DiffNum {
 			s_type ret;
 			ret.value = value / _Right.value;
 
-			for (size_t i = 0; i < size; i++) {
+			for (ptrdiff_t i = 0; i < size; i++) {
 				ret.gradient[i] = (gradient[i] * _Right.value - value * _Right.gradient[i]) / (_Right.value * _Right.value);
 			}
 			return ret;
@@ -442,7 +450,7 @@ namespace DiffNum {
 			s_type ret;
 			ret.value = _Left - _Right.value;
 
-			for (size_t i = 0; i < size; i++)
+			for (ptrdiff_t i = 0; i < size; i++)
 				ret.gradient[i] = -_Right.gradient[i];
 			return ret;
 		}
@@ -451,7 +459,7 @@ namespace DiffNum {
 			s_type ret;
 			ret.value = value * _Right;
 
-			for (size_t i = 0; i < size; i++) {
+			for (ptrdiff_t i = 0; i < size; i++) {
 				ret.gradient[i] = gradient[i] * _Right;
 			}
 			return ret;
@@ -465,7 +473,7 @@ namespace DiffNum {
 			s_type ret;
 			ret.value = value / _Right;
 
-			for (size_t i = 0; i < size; i++) {
+			for (ptrdiff_t i = 0; i < size; i++) {
 				ret.gradient[i] = gradient[i] / _Right;
 			}
 			return ret;
@@ -475,14 +483,14 @@ namespace DiffNum {
 			s_type ret;
 			ret.value = _Left / _Right.value;
 
-			for (size_t i = 0; i < size; i++)
+			for (ptrdiff_t i = 0; i < size; i++)
 				ret.gradient[i] = -(_Left / (_Right.value * _Right.value)) * _Right.gradient[i];
 			return ret;
 		}
 
 		__HOST_DEVICE__ const s_type& operator+=(const s_type& _Right) {
 			value += _Right.value;
-			for (size_t i = 0; i < size; i++) {
+			for (ptrdiff_t i = 0; i < size; i++) {
 				gradient[i] += _Right.gradient[i];
 			}
 			return *this;
@@ -490,14 +498,14 @@ namespace DiffNum {
 
 		__HOST_DEVICE__ const s_type& operator-=(const s_type& _Right) {
 			value -= _Right.value;
-			for (size_t i = 0; i < size; i++) {
+			for (ptrdiff_t i = 0; i < size; i++) {
 				gradient[i] -= _Right.gradient[i];
 			}
 			return *this;
 		}
 
 		__HOST_DEVICE__ const s_type& operator*=(const s_type& _Right) {
-			for (size_t i = 0; i < size; i++) {
+			for (ptrdiff_t i = 0; i < size; i++) {
 				gradient[i] = gradient[i] * _Right.value + value * _Right.gradient[i];
 			}
 			value *= _Right.value;
@@ -505,7 +513,7 @@ namespace DiffNum {
 		}
 
 		__HOST_DEVICE__ const s_type& operator/=(const s_type& _Right) {
-			for (size_t i = 0; i < size; i++) {
+			for (ptrdiff_t i = 0; i < size; i++) {
 				gradient[i] = (gradient[i] * _Right.value - value * _Right.gradient[i]) / (_Right.value * _Right.value);
 			}
 			value /= _Right.value;
@@ -523,7 +531,7 @@ namespace DiffNum {
 		}
 
 		__HOST_DEVICE__ const s_type& operator*=(const n_type _Right) {
-			for (size_t i = 0; i < size; i++) {
+			for (ptrdiff_t i = 0; i < size; i++) {
 				gradient[i] *= _Right;
 			}
 			value *= _Right;
@@ -531,7 +539,7 @@ namespace DiffNum {
 		}
 
 		__HOST_DEVICE__ const s_type& operator/=(const n_type _Right) {
-			for (size_t i = 0; i < size; i++) {
+			for (ptrdiff_t i = 0; i < size; i++) {
 				gradient[i] /= _Right;
 			}
 			value /= _Right;
@@ -541,7 +549,7 @@ namespace DiffNum {
 		__HOST_ONLY__ const std::string toString_grad() const {
 			std::stringstream ss;
 			ss << "(";
-			for (size_t i = 0; i < size - 1; i++)
+			for (ptrdiff_t i = 0; i < size - 1; i++)
 				ss << gradient[i].toString_grad() << ", ";
 			ss << gradient.back().toString_grad() << ")";
 			return ss.str();
@@ -558,7 +566,7 @@ namespace DiffNum {
 		Common::array<d_type, size> gradient;
 	};
 
-	template<typename d_type, size_t size>
+	template<typename d_type, ptrdiff_t size>
 	std::ostream& operator << (std::ostream& ostrm, const DiffVar<d_type, size>& v) {
 		ostrm << v.toString();
 		return ostrm;

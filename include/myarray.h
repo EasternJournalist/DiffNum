@@ -1,8 +1,8 @@
 #pragma once
-#include <DiffBasic.h>
+#include <Common.h>
 
 namespace Common {
-	template<class T, size_t N>
+	template<class T, ptrdiff_t N>
 	struct array {
 
 		T _Elems[N];
@@ -10,22 +10,22 @@ namespace Common {
 		__HOST_DEVICE__ array() {}
 
 		__HOST_DEVICE__ array(const array<T, N>& _Right) {
-			for (size_t i = 0; i < N; i++)
+			for (ptrdiff_t i = 0; i < N; i++)
 				_Elems[i] = _Right._Elems[i];
 		}
 
-		__HOST_DEVICE__ const T& operator[](const size_t _Pos) const {
+		__HOST_DEVICE__ const T& operator[](const ptrdiff_t _Pos) const {
 			assert(_Pos < N);
 			return _Elems[_Pos];
 		}
 
-		__HOST_DEVICE__ T& operator[](const size_t _Pos) {
+		__HOST_DEVICE__ T& operator[](const ptrdiff_t _Pos) {
 			assert(_Pos < N);
 			return _Elems[_Pos];
 		}
 
 		__HOST_DEVICE__ const array<T, N>& operator=(const array<T, N>& _Right) {
-			for (size_t i = 0; i < N; i++)
+			for (ptrdiff_t i = 0; i < N; i++)
 				_Elems[i] = _Right._Elems[i];
 			return *this;
 		}
@@ -46,7 +46,7 @@ namespace Common {
 			return _Elems[N - 1];
 		}
 
-		__HOST_DEVICE__ constexpr size_t size() {
+		__HOST_DEVICE__ constexpr ptrdiff_t size() {
 			return N - 1;
 		}
 	};

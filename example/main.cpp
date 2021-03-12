@@ -7,15 +7,16 @@
 #include <iostream>
 #include <DiffNum.h>
 #include <Vec.h>
+#include <Mat.h>
 
 #ifdef DIFFNUM_WITH_CUDA
 #include <cuda_test.h>
 #endif
 
 
-
 using namespace DiffNum;
 using namespace Common;
+
 
 int main()
 {
@@ -51,6 +52,7 @@ int main()
     auto q = vec<ddouble<0>, 3>::dot(v1, v2);
 
     std::cout << q << std::endl;
+    std::cout << v1.norm() << std::endl;
     std::cout << std::endl;
 
     // Example 4. Evaluating secondary derivative.
@@ -66,7 +68,7 @@ int main()
 
     std::cout << "x + x^3*y + x*y + 2*y = ";
     std::cout <<  1. - x + ddmath::Pow(x, unsigned int(3)) * y + x * y + 2. * y << std::endl;
-
+    
     // Example 5. Implement in CUDA kernal.
 #ifdef DIFFNUM_WITH_CUDA
     std::cout << "\n *** Test on CUDA *** \n u := 1, v := Pi / 3" << std::endl;

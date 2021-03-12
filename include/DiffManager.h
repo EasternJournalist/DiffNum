@@ -20,7 +20,7 @@ namespace DiffNum {
 		/// </summary>
 		/// <param name="_Var"></param>
 		/// <returns> The index of the variable in gradient array. </returns>
-		size_t AddVariable(DiffVar<n_type, 0>* _Var) {
+		ptrdiff_t AddVariable(DiffVar<n_type, 0>* _Var) {
 			indices[_Var] = variables.size();
 			variables.push_back(_Var);
 			return variables.size() - 1;
@@ -32,7 +32,7 @@ namespace DiffNum {
 		/// <param name="_Begin">Pointer to the first variable to be added </param>
 		/// <param name="_Size">Number of variables to be added </param>
 		/// <returns>The index of the first variable </returns>
-		size_t AddVariables(DiffVar<n_type, 0>* _Begin, size_t _Size) {
+		ptrdiff_t AddVariables(DiffVar<n_type, 0>* _Begin, ptrdiff_t _Size) {
 			for (DiffVar<n_type, 0>* _var = _Begin; _var < _Begin + _Size; _var++) {
 				indices[_var] = variables.size();
 				variables.push_back(_var);
@@ -44,8 +44,8 @@ namespace DiffNum {
 		/// Set up variable gradients.
 		/// </summary>
 		void SetUp() {
-			size_t num_var = variables.size();
-			for (size_t i = 0; i < num_var; i++) {
+			ptrdiff_t num_var = variables.size();
+			for (ptrdiff_t i = 0; i < num_var; i++) {
 				variables[i]->setVar(num_var, i);
 			}
 			not_done = false;
@@ -56,7 +56,7 @@ namespace DiffNum {
 		/// </summary>
 		/// <param name="_Var">Pointer to the variable. </param>
 		/// <returns></returns>
-		size_t Index(DiffVar<n_type, 0>* _Var) const {
+		ptrdiff_t Index(DiffVar<n_type, 0>* _Var) const {
 			return indices[_Var];
 		}
 		
@@ -65,7 +65,7 @@ namespace DiffNum {
 		/// </summary>
 		/// <param name="_Var">const reference to the variable. </param>
 		/// <returns></returns>
-		size_t Index(const DiffVar<n_type, 0>& _Var) const {
+		ptrdiff_t Index(const DiffVar<n_type, 0>& _Var) const {
 			return indices[&_Var];
 		}
 
@@ -73,7 +73,7 @@ namespace DiffNum {
 		bool not_done;
 
 		std::vector<DiffVar<n_type, 0>*> variables;
-		std::unordered_map<DiffVar<n_type, 0>*, size_t> indices;
+		std::unordered_map<DiffVar<n_type, 0>*, ptrdiff_t> indices;
 	};
 
 

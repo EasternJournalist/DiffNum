@@ -8,13 +8,13 @@
 namespace Common {
 	using namespace DiffNum;
 
-	template <class d_type, size_t size> const DiffVar<d_type, size> NaN<DiffVar<d_type, size>> = DiffVar<d_type, size>(NaN<typename DiffVar<d_type, size>::n_type>);
+	template <class d_type, ptrdiff_t size> const DiffVar<d_type, size> NaN<DiffVar<d_type, size>> = DiffVar<d_type, size>(NaN<typename DiffVar<d_type, size>::n_type>);
 
-	template <class d_type, size_t size> const DiffVar<d_type, size> Inf<DiffVar<d_type, size>> = DiffVar<d_type, size>(Inf<typename DiffVar<d_type, size>::n_type>);
+	template <class d_type, ptrdiff_t size> const DiffVar<d_type, size> Inf<DiffVar<d_type, size>> = DiffVar<d_type, size>(Inf<typename DiffVar<d_type, size>::n_type>);
 
-	template <class d_type, size_t size> const DiffVar<d_type, size> NegInf<DiffVar<d_type, size>> = DiffVar<d_type, size>(NegInf<typename DiffVar<d_type, size>::n_type>);
+	template <class d_type, ptrdiff_t size> const DiffVar<d_type, size> NegInf<DiffVar<d_type, size>> = DiffVar<d_type, size>(NegInf<typename DiffVar<d_type, size>::n_type>);
 
-	template <class d_type, size_t size> const DiffVar<d_type, size> Pi<DiffVar<d_type, size>> = DiffVar<d_type, size>(Pi<typename DiffVar<d_type, size>::n_type>);
+	template <class d_type, ptrdiff_t size> const DiffVar<d_type, size> Pi<DiffVar<d_type, size>> = DiffVar<d_type, size>(Pi<typename DiffVar<d_type, size>::n_type>);
 }
 
 namespace DiffNum {
@@ -90,7 +90,7 @@ namespace DiffNum {
 				s_type ret;
 				ret.value = -_X.value;
 				ret.gradient.resize(_X.gradient.size());
-				for (size_t i = 0; i < _X.gradient.size(); i++) {
+				for (ptrdiff_t i = 0; i < _X.gradient.size(); i++) {
 					ret.gradient[i] = -_X.gradient[i];
 				}
 				return ret;
@@ -102,7 +102,7 @@ namespace DiffNum {
 			ret.value = MathofNum::Sqrt(_X.value);
 			ret.gradient.resize(_X.gradient.size());
 
-			for (size_t i = 0; i < _X.gradient.size(); i++) {
+			for (ptrdiff_t i = 0; i < _X.gradient.size(); i++) {
 				ret.gradient[i] = _X.gradient[i] / (n_type(2) * ret.value);
 			}
 			return ret;
@@ -113,7 +113,7 @@ namespace DiffNum {
 			ret.value = MathofNum::Sin(_X.value);
 			ret.gradient.resize(_X.gradient.size());
 
-			for (size_t i = 0; i < _X.gradient.size(); i++) {
+			for (ptrdiff_t i = 0; i < _X.gradient.size(); i++) {
 				ret.gradient[i] = MathofNum::Cos(_X.value) * _X.gradient[i];
 			}
 			return ret;
@@ -124,7 +124,7 @@ namespace DiffNum {
 			ret.value = MathofNum::Cos(_X.value);
 			ret.gradient.resize(_X.gradient.size());
 
-			for (size_t i = 0; i < _X.gradient.size(); i++) {
+			for (ptrdiff_t i = 0; i < _X.gradient.size(); i++) {
 				ret.gradient[i] = -MathofNum::Sin(_X.value) * _X.gradient[i];
 			}
 			return ret;
@@ -136,7 +136,7 @@ namespace DiffNum {
 			ret.gradient.resize(_X.gradient.size());
 
 			d_type cosX = MathofNum::Cos(_X.value);
-			for (size_t i = 0; i < _X.gradient.size(); i++) {
+			for (ptrdiff_t i = 0; i < _X.gradient.size(); i++) {
 				ret.gradient[i] = _X.gradient[i] / (cosX * cosX);;
 			}
 			return ret;
@@ -148,7 +148,7 @@ namespace DiffNum {
 			ret.gradient.resize(_X.gradient.size());
 
 			d_type dasinX = n_type(1) / MathofNum::Sqrt(n_type(1) - _X.value * _X.value);
-			for (size_t i = 0; i < _X.gradient.size(); i++) {
+			for (ptrdiff_t i = 0; i < _X.gradient.size(); i++) {
 				ret.gradient[i] = dasinX * _X.gradient[i];
 			}
 			return ret;
@@ -160,7 +160,7 @@ namespace DiffNum {
 			ret.gradient.resize(_X.gradient.size());
 
 			d_type dacosX = n_type(-1) / MathofNum::Sqrt(n_type(1) - _X.value * _X.value);
-			for (size_t i = 0; i < _X.gradient.size(); i++) {
+			for (ptrdiff_t i = 0; i < _X.gradient.size(); i++) {
 				ret.gradient[i] = dacosX * _X.gradient[i];
 			}
 			return ret;
@@ -172,7 +172,7 @@ namespace DiffNum {
 			ret.gradient.resize(_X.gradient.size());
 
 			d_type datanX = n_type(1) / (n_type(1) + _X.value * _X.value);
-			for (size_t i = 0; i < _X.gradient.size(); i++) {
+			for (ptrdiff_t i = 0; i < _X.gradient.size(); i++) {
 				ret.gradient[i] = datanX * _X.gradient[i];
 			}
 			return ret;
@@ -183,7 +183,7 @@ namespace DiffNum {
 			ret.value = MathofNum::Sinh(_X.value);
 			ret.gradient.resize(_X.gradient.size());
 
-			for (size_t i = 0; i < _X.gradient.size(); i++) {
+			for (ptrdiff_t i = 0; i < _X.gradient.size(); i++) {
 				ret.gradient[i] = MathofNum::Cosh(_X.value) * _X.gradient[i];
 			}
 			return ret;
@@ -194,7 +194,7 @@ namespace DiffNum {
 			ret.value = MathofNum::Cosh(_X.value);
 			ret.gradient.resize(_X.gradient.size());
 
-			for (size_t i = 0; i < _X.gradient.size(); i++) {
+			for (ptrdiff_t i = 0; i < _X.gradient.size(); i++) {
 				ret.gradient[i] = MathofNum::Sinh(_X.value) * _X.gradient[i];
 			}
 			return ret;
@@ -206,7 +206,7 @@ namespace DiffNum {
 			ret.gradient.resize(_X.gradient.size());
 
 			d_type dtanhX = n_type(2) / (n_type(1) + MathofNum::Cosh(n_type(2) * _X.value));
-			for (size_t i = 0; i < _X.gradient.size(); i++) {
+			for (ptrdiff_t i = 0; i < _X.gradient.size(); i++) {
 				ret.gradient[i] = dtanhX * _X.gradient[i];
 			}
 			return ret;
@@ -218,7 +218,7 @@ namespace DiffNum {
 			ret.gradient.resize(_X.gradient.size());
 
 			d_type dasinhX = n_type(1) / MathofNum::Sqrt(n_type(1) + _X.value * _X.value);
-			for (size_t i = 0; i < _X.gradient.size(); i++) {
+			for (ptrdiff_t i = 0; i < _X.gradient.size(); i++) {
 				ret.gradient[i] = dasinhX * _X.gradient[i];
 			}
 			return ret;
@@ -230,7 +230,7 @@ namespace DiffNum {
 			ret.gradient.resize(_X.gradient.size());
 
 			d_type dacoshX = n_type(1) / MathofNum::Sqrt(n_type(-1) + _X.value * _X.value);
-			for (size_t i = 0; i < _X.gradient.size(); i++) {
+			for (ptrdiff_t i = 0; i < _X.gradient.size(); i++) {
 				ret.gradient[i] = dacoshX * _X.gradient[i];
 			}
 			return ret;
@@ -242,7 +242,7 @@ namespace DiffNum {
 			ret.gradient.resize(_X.gradient.size());
 
 			d_type datanhX = n_type(1) / (n_type(1) - _X.value * _X.value);
-			for (size_t i = 0; i < _X.gradient.size(); i++) {
+			for (ptrdiff_t i = 0; i < _X.gradient.size(); i++) {
 				ret.gradient[i] = datanhX * _X.gradient[i];
 			}
 			return ret;
@@ -253,7 +253,7 @@ namespace DiffNum {
 			ret.value = MathofNum::Exp(_X.value);
 			ret.gradient.resize(_X.gradient.size());
 
-			for (size_t i = 0; i < _X.gradient.size(); i++) {
+			for (ptrdiff_t i = 0; i < _X.gradient.size(); i++) {
 				ret.gradient[i] = ret.value * _X.gradient[i];
 			}
 			return ret;
@@ -264,7 +264,7 @@ namespace DiffNum {
 			ret.value = MathofNum::Log(_X.value);
 			ret.gradient.resize(_X.gradient.size());
 
-			for (size_t i = 0; i < _X.gradient.size(); i++) {
+			for (ptrdiff_t i = 0; i < _X.gradient.size(); i++) {
 				ret.gradient[i] = _X.gradient[i] / _X.value;
 			}
 			return ret;
@@ -275,7 +275,7 @@ namespace DiffNum {
 			ret.value = MathofNum::Pow(_X, _Y.value);
 			ret.gradient.resize(_Y.gradient.size());
 
-			for (size_t i = 0; i < _Y.gradient.size(); i++) {
+			for (ptrdiff_t i = 0; i < _Y.gradient.size(); i++) {
 				ret.gradient[i] = MathofNum::Log(_X) * ret.value * _Y.gradient[i];
 			}
 			return ret;
@@ -286,7 +286,7 @@ namespace DiffNum {
 			ret.value = MathofNum::Pow(_X.value, _Y);
 			ret.gradient.resize(_X.gradient.size());
 
-			for (size_t i = 0; i < _X.gradient.size(); i++) {
+			for (ptrdiff_t i = 0; i < _X.gradient.size(); i++) {
 				ret.gradient[i] = _Y * (ret.value / _X.value) * _X.gradient[i];
 			}
 			return ret;
@@ -302,7 +302,7 @@ namespace DiffNum {
 			ret.value = MathofNum::Pow(_X.value, _Y.value);
 			ret.gradient.resize(_X.gradient.size());
 
-			for (size_t i = 0; i < _X.gradient.size(); i++) {
+			for (ptrdiff_t i = 0; i < _X.gradient.size(); i++) {
 				ret.gradient[i] = _Y.value * (ret.value / _X.value) * _X.gradient[i] + MathofNum::Log(_X.value) * ret.value * _Y.gradient[i];
 			}
 			return ret;
@@ -321,7 +321,7 @@ namespace DiffNum {
 				p *= p;
 				_Y >>= 1;
 			}
-			for (size_t i = 0; i < _X.gradient.size(); i++) {
+			for (ptrdiff_t i = 0; i < _X.gradient.size(); i++) {
 				ret.gradient[i] = _Yn * (ret.value / _X.value) * _X.gradient[i];
 			}
 			return ret;
@@ -339,7 +339,7 @@ namespace DiffNum {
 	};
 	
 
-	template<class d_type, size_t size>
+	template<class d_type, ptrdiff_t size>
 	class Math<DiffVar<d_type, size>> {
 		using MathofNum = Math<d_type>;
 		using n_type = typename DiffVar<d_type, size>::n_type;
@@ -359,7 +359,7 @@ namespace DiffNum {
 			else {
 				s_type ret;
 				ret.value = -_X.value;
-				for (size_t i = 0; i < size; i++) {
+				for (ptrdiff_t i = 0; i < size; i++) {
 					ret.gradient[i] = -_X.gradient[i];
 				}
 				return ret;
@@ -370,7 +370,7 @@ namespace DiffNum {
 			s_type ret;
 			ret.value = MathofNum::Sqrt(_X.value);
 
-			for (size_t i = 0; i < size; i++) {
+			for (ptrdiff_t i = 0; i < size; i++) {
 				ret.gradient[i] = _X.gradient[i] / (n_type(2) * ret.value);
 			}
 			return ret;
@@ -380,7 +380,7 @@ namespace DiffNum {
 			s_type ret;
 			ret.value = MathofNum::Sin(_X.value);
 
-			for (size_t i = 0; i < size; i++) {
+			for (ptrdiff_t i = 0; i < size; i++) {
 				ret.gradient[i] = MathofNum::Cos(_X.value) * _X.gradient[i];
 			}
 			return ret;
@@ -390,7 +390,7 @@ namespace DiffNum {
 			s_type ret;
 			ret.value = MathofNum::Cos(_X.value);
 
-			for (size_t i = 0; i < size; i++) {
+			for (ptrdiff_t i = 0; i < size; i++) {
 				ret.gradient[i] = -MathofNum::Sin(_X.value) * _X.gradient[i];
 			}
 			return ret;
@@ -401,7 +401,7 @@ namespace DiffNum {
 			ret.value = MathofNum::Tan(_X.value);
 
 			d_type cosX = MathofNum::Cos(_X.value);
-			for (size_t i = 0; i < size; i++) {
+			for (ptrdiff_t i = 0; i < size; i++) {
 				ret.gradient[i] = _X.gradient[i] / (cosX * cosX);;
 			}
 			return ret;
@@ -412,7 +412,7 @@ namespace DiffNum {
 			ret.value = MathofNum::Asin(_X.value);
 
 			d_type dasinX = n_type(1) / MathofNum::Sqrt(n_type(1) - _X.value * _X.value);
-			for (size_t i = 0; i < size; i++) {
+			for (ptrdiff_t i = 0; i < size; i++) {
 				ret.gradient[i] = dasinX * _X.gradient[i];
 			}
 			return ret;
@@ -423,7 +423,7 @@ namespace DiffNum {
 			ret.value = MathofNum::Acos(_X.value);
 
 			d_type dacosX = n_type(-1) / MathofNum::Sqrt(n_type(1) - _X.value * _X.value);
-			for (size_t i = 0; i < size; i++) {
+			for (ptrdiff_t i = 0; i < size; i++) {
 				ret.gradient[i] = dacosX * _X.gradient[i];
 			}
 			return ret;
@@ -434,7 +434,7 @@ namespace DiffNum {
 			ret.value = MathofNum::Atan(_X.value);
 
 			d_type datanX = n_type(1) / (n_type(1) + _X.value * _X.value);
-			for (size_t i = 0; i < size; i++) {
+			for (ptrdiff_t i = 0; i < size; i++) {
 				ret.gradient[i] = datanX * _X.gradient[i];
 			}
 			return ret;
@@ -444,7 +444,7 @@ namespace DiffNum {
 			s_type ret;
 			ret.value = MathofNum::Sinh(_X.value);
 
-			for (size_t i = 0; i < size; i++) {
+			for (ptrdiff_t i = 0; i < size; i++) {
 				ret.gradient[i] = MathofNum::Cosh(_X.value) * _X.gradient[i];
 			}
 			return ret;
@@ -454,7 +454,7 @@ namespace DiffNum {
 			s_type ret;
 			ret.value = MathofNum::Cosh(_X.value);
 
-			for (size_t i = 0; i < size; i++) {
+			for (ptrdiff_t i = 0; i < size; i++) {
 				ret.gradient[i] = MathofNum::Sinh(_X.value) * _X.gradient[i];
 			}
 			return ret;
@@ -465,7 +465,7 @@ namespace DiffNum {
 			ret.value = MathofNum::Tanh(_X.value);
 
 			d_type dtanhX = n_type(2) / (n_type(1) + MathofNum::Cosh(n_type(2) * _X.value));
-			for (size_t i = 0; i < size; i++) {
+			for (ptrdiff_t i = 0; i < size; i++) {
 				ret.gradient[i] = dtanhX * _X.gradient[i];
 			}
 			return ret;
@@ -476,7 +476,7 @@ namespace DiffNum {
 			ret.value = MathofNum::Asinh(_X.value);
 
 			d_type dasinhX = n_type(1) / MathofNum::Sqrt(n_type(1) + _X.value * _X.value);
-			for (size_t i = 0; i < size; i++) {
+			for (ptrdiff_t i = 0; i < size; i++) {
 				ret.gradient[i] = dasinhX * _X.gradient[i];
 			}
 			return ret;
@@ -487,7 +487,7 @@ namespace DiffNum {
 			ret.value = MathofNum::Acosh(_X.value);
 
 			d_type dacoshX = n_type(1) / MathofNum::Sqrt(n_type(-1) + _X.value * _X.value);
-			for (size_t i = 0; i < size; i++) {
+			for (ptrdiff_t i = 0; i < size; i++) {
 				ret.gradient[i] = dacoshX * _X.gradient[i];
 			}
 			return ret;
@@ -498,7 +498,7 @@ namespace DiffNum {
 			ret.value = MathofNum::Atanh(_X.value);
 
 			d_type datanhX = n_type(1) / (n_type(1) - _X.value * _X.value);
-			for (size_t i = 0; i < size; i++) {
+			for (ptrdiff_t i = 0; i < size; i++) {
 				ret.gradient[i] = datanhX * _X.gradient[i];
 			}
 			return ret;
@@ -508,7 +508,7 @@ namespace DiffNum {
 			s_type ret;
 			ret.value = MathofNum::Exp(_X.value);
 
-			for (size_t i = 0; i < size; i++) {
+			for (ptrdiff_t i = 0; i < size; i++) {
 				ret.gradient[i] = ret.value * _X.gradient[i];
 			}
 			return ret;
@@ -518,7 +518,7 @@ namespace DiffNum {
 			s_type ret;
 			ret.value = MathofNum::Log(_X.value);
 
-			for (size_t i = 0; i < size; i++) {
+			for (ptrdiff_t i = 0; i < size; i++) {
 				ret.gradient[i] = _X.gradient[i] / _X.value;
 			}
 			return ret;
@@ -528,7 +528,7 @@ namespace DiffNum {
 			s_type ret;
 			ret.value = MathofNum::Pow(_X, _Y.value);
 
-			for (size_t i = 0; i < size; i++) {
+			for (ptrdiff_t i = 0; i < size; i++) {
 				ret.gradient[i] = MathofNum::Log(_X) * ret.value * _Y.gradient[i];
 			}
 			return ret;
@@ -538,7 +538,7 @@ namespace DiffNum {
 			s_type ret;
 			ret.value = MathofNum::Pow(_X.value, _Y);
 
-			for (size_t i = 0; i < size; i++) {
+			for (ptrdiff_t i = 0; i < size; i++) {
 				ret.gradient[i] = _Y * (ret.value / _X.value) * _X.gradient[i];
 			}
 			return ret;
@@ -548,7 +548,7 @@ namespace DiffNum {
 			s_type ret;
 			ret.value = MathofNum::Pow(_X.value, _Y.value);
 
-			for (size_t i = 0; i < size; i++) {
+			for (ptrdiff_t i = 0; i < size; i++) {
 				ret.gradient[i] = _Y.value * (ret.value / _X.value) * _X.gradient[i] + MathofNum::Log(_X.value) * ret.value * _Y.gradient[i];
 			}
 			return ret;
@@ -566,7 +566,7 @@ namespace DiffNum {
 				p *= p;
 				_Y >>= 1;
 			}
-			for (size_t i = 0; i < size; i++) {
+			for (ptrdiff_t i = 0; i < size; i++) {
 				ret.gradient[i] = _Yn * (ret.value / _X.value) * _X.gradient[i];
 			}
 			return ret;

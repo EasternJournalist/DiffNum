@@ -11,19 +11,19 @@
 
 namespace DiffNum {
 
-	template <size_t size>
+	template <ptrdiff_t size>
 	using dfloat = DiffVar<float, size>;
-	template <size_t size>
+	template <ptrdiff_t size>
 	using ddouble = DiffVar<double, size>;
 
-	template <size_t size>
+	template <ptrdiff_t size>
 	using ddfloat = DiffVar<DiffVar<float, size>, size>;
-	template <size_t size>
+	template <ptrdiff_t size>
 	using dddouble = DiffVar<DiffVar<double, size>, size>;
 
-	template <size_t size>
+	template <ptrdiff_t size>
 	using dmathf = Math<DiffVar<float, size>>;
-	template <size_t size>
+	template <ptrdiff_t size>
 	using dmathd = Math<DiffVar<double, size>>;
 	
 }
