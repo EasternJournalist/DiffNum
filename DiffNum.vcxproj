@@ -152,6 +152,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="example\cuda_test.h" />
+    <ClInclude Include="include\Args.h" />
     <ClInclude Include="include\DiffVar_arr.h" />
     <ClInclude Include="include\Common.h" />
     <ClInclude Include="include\DiffManager.h" />
@@ -160,6 +161,7 @@
     <ClInclude Include="include\DiffVar_vec.h" />
     <ClInclude Include="include\Mat.h" />
     <ClInclude Include="include\myarray.h" />
+    <ClInclude Include="include\Tensor.h" />
     <ClInclude Include="include\Vec.h" />
   </ItemGroup>
   <ItemGroup>

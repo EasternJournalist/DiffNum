@@ -7,9 +7,9 @@
 namespace Common {
 	// 小型稠密矩阵的模板
 	template<typename T, ptrdiff_t NRow, ptrdiff_t NCol>
-	struct mat : public array<array<T, NCol>, NRow>{
-		using array_type = array<array<T, NCol>, NRow>;
-		static const ptrdiff_t _Size = NRow * NCol;
+	struct mat : public array<T, NCol, NRow>{
+		using array_type = array<T, NCol, NRow>;
+		static const ptrdiff_t _Size = array_type::_Size;
 
 		__HOST_DEVICE__ mat() : array_type() {}
 
@@ -198,7 +198,7 @@ namespace Common {
 			}
 		}
 
-		__HOST_DEVICE__ constexpr ptrdiff_t size() const {
+		__HOST_DEVICE__ static constexpr ptrdiff_t size() {
 			return _Size;
 		}
 
@@ -210,9 +210,9 @@ namespace Common {
 
 
 	template<typename T>
-	struct mat<T, 3, 3> : public array<array<T, 3>, 3>{
-		using array_type = array<array<T, 3>, 3>;
-		static const ptrdiff_t _Size = 9;
+	struct mat<T, 3, 3> : public array<T, 3, 3>{
+		using array_type = array<T, 3, 3>;
+		static const ptrdiff_t _Size = array_type::_Size;
 
 		__HOST_DEVICE__ mat() : array_type() {}
 
@@ -362,10 +362,6 @@ namespace Common {
 
 		__HOST_DEVICE__ T det(void) const {
 			return (*this)[0][0] * ((*this)[1][1] * (*this)[2][2] - (*this)[1][2] * (*this)[2][1]) - (*this)[0][1] * ((*this)[1][0] * (*this)[2][2] - (*this)[1][2] * (*this)[2][0]) + (*this)[0][2] * ((*this)[1][0] * (*this)[2][1] - (*this)[1][1] * (*this)[2][0]);
-		}
-
-		__HOST_DEVICE__ constexpr ptrdiff_t size() const {
-			return _Size;
 		}
 
 		__HOST_DEVICE__ T* data() const {

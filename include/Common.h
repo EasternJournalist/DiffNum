@@ -41,9 +41,10 @@ namespace Common {
 	template <> const float Pi<float> = static_cast<float>(3.1415926535897932385);
 	template <> const double Pi<double> = static_cast<double>(3.1415926535897932385);
 
-	template<class T, ptrdiff_t N> struct array;
+	template<class T, ptrdiff_t... Ns> struct array;
 	template<class T, ptrdiff_t N> struct vec;
 	template<class T, ptrdiff_t NRow, ptrdiff_t NCol> struct mat;
+	template<class T, ptrdiff_t... Ns> struct tensor;
 }
 
 

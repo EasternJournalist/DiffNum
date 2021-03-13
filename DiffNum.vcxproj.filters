@@ -45,6 +45,12 @@
     <ClInclude Include="include\Common.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="include\Tensor.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Args.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CudaCompile Include="example\cuda_test.cu">
