@@ -35,14 +35,7 @@ int main()
     auto d = dmath::Log(dmath::Max(dmath::Sin(a / c), b));
 
     std::cout << d << std::endl;
-   
-    tensor<float, 3, 4, 5> t1;
-    t1[2][1][0] = 1.f;
 
-    auto defq = t1.shape<2>;
-    t1.fill(2.f);
-    tensor<float, 3, 4, 5> t2;
-    t2 = t1;
     // t1.einsum<1, 2, 3>(t1);
     // Example 2. Vec v1 v2. v1[2] is the variable. q = v1 dot v2.
     vec<ddouble<0>, 3> v1, v2; 
@@ -61,13 +54,11 @@ int main()
     auto q = vec<ddouble<0>, 3>::dot(v1, v2);
 
     std::cout << q << std::endl;
-    std::cout << v1.norm() << std::endl;
     std::cout << std::endl;
 
     // Example 4. Evaluating secondary derivative.
     using ddmath = Math<dddouble<2>>;
     
-
     dddouble<2> x = 2., y = 3.;
     
     x.setVar(0); y.setVar(1),

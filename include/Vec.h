@@ -14,7 +14,10 @@ namespace Common
 	template<typename T, ptrdiff_t N>
 	struct vec : public array<T, N>
 	{
+		using array_type = array<T, N>;
+
 		__HOST_DEVICE__ vec() : array<T, N>() { }
+
 		__HOST_DEVICE__ vec(const T* _data) {
 			if (_data == nullptr) {
 				this->_Elems[0] = NaN<T>;
@@ -24,22 +27,13 @@ namespace Common
 				(*this)[i] = _data[i];
 		}
 
-		__HOST_DEVICE__ vec(const vec<T, N>& v) {
-			for (ptrdiff_t i = 0; i < N; i++)
-				(*this)[i] = v[i];
-		}
+		__HOST_DEVICE__ vec(const vec<T, N>& _Right) : array_type(_Right) {}
 
-		__HOST_ONLY__ vec(const std::initializer_list<T> elem_list) {
-			assert(elem_list.size() <= N && "Initializer list is too long");
-			ptrdiff_t i = 0;
-			for (auto it : elem_list)
-				this->_Elems[i++] = it;
-		}
+		__HOST_DEVICE__ vec(const array_type& _Right) : array_type(_Right) {}
 
-		__HOST_DEVICE__ vec(const T v) {
-			for (T* p = this->_Elems, *pend = this->_Elems + N; p != pend; p++)
-				*p = v;
-		}
+		__HOST_DEVICE__ vec(const std::initializer_list<T> _List) : array_type(_List) {}
+
+		__HOST_DEVICE__ vec(const T _Val) { fill(_Val); }
 
 		template<ptrdiff_t N1, ptrdiff_t N2>
 		__HOST_DEVICE__  vec(const vec<T, N1>& v1, const vec<T, N2>& v2) {
@@ -60,13 +54,15 @@ namespace Common
 
 		template<ptrdiff_t M>
 		__HOST_DEVICE__ const vec<T, N>& operator=(const vec<T, M>& v) {
-			for (ptrdiff_t i = 0; i < M; i++)
+			static const ptrdiff_t K = M < N ? M : N;
+			for (ptrdiff_t i = 0; i < K; i++)
 				(*this)[i] = v[i];
 			return *this;
 		}
 		template<ptrdiff_t M>
 		__HOST_DEVICE__ const vec<T, N>& operator=(const array<T, M>& v) {
-			for (ptrdiff_t i = 0; i < M; i++)
+			static const ptrdiff_t K = M < N ? M : N;
+			for (ptrdiff_t i = 0; i < K; i++)
 				(*this)[i] = v[i];
 			return *this;
 		}
@@ -125,7 +121,7 @@ namespace Common
 			return true;
 		}
 		__HOST_DEVICE__ void fill(const T v) {
-			for (T* p = this->_Elems, *pend = this->_Elems + N; p != pend; p++)
+			for (T* p = (T*)this, *pend = (T*)this + N; p != pend; p++)
 				*p = v;
 		}
 
@@ -148,7 +144,7 @@ namespace Common
 			return ret;
 		}
 
-		__HOST_DEVICE__ static const vec<T, 3> cross(vec<T, 3> v1, vec<T, 3>v2) {
+		__HOST_DEVICE__ static const vec<T, 3> cross(const vec<T, 3>& v1, const vec<T, 3>& v2) {
 			return { v1[1] * v2[2] - v1[2] * v2[1],
 				v1[2] * v2[0] - v1[0] * v2[2],
 				v1[0] * v2[1] - v1[1] * v2[0]
@@ -156,7 +152,7 @@ namespace Common
 		}
 
 		__HOST_DEVICE__ static const T dot(const vec<T, N>& v1, const vec<T, N>& v2) {
-			T ret(0.);
+			T ret(0);
 			for (ptrdiff_t i = 0; i < N; i++)
 				ret += v1[i] * v2[i];
 			return ret;

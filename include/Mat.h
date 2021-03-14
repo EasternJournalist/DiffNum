@@ -13,15 +13,13 @@ namespace Common {
 
 		__HOST_DEVICE__ mat() : array_type() {}
 
-		__HOST_DEVICE__ mat(std::initializer_list<T> init_list) {
-			ptrdiff_t i = 0;
-			for (auto it : init_list)
-				((T*)this)[i++] = it;
-		}
+		__HOST_DEVICE__ mat(std::initializer_list<T> _List) : array_type(_List) {}
 
 		__HOST_DEVICE__ mat(const mat<T, NRow, NCol>& _Right) :array_type(_Right) { }
 
-		__HOST_DEVICE__ mat(const T val) { fill(val);}
+		__HOST_DEVICE__ mat(const array_type& _Right) : array_type(_Right) { }
+
+		__HOST_DEVICE__ mat(const T _Val) { fill(_Val);}
 
 		__HOST_DEVICE__ ~mat() { }
 
@@ -216,11 +214,7 @@ namespace Common {
 
 		__HOST_DEVICE__ mat() : array_type() {}
 
-		__HOST_DEVICE__ mat(std::initializer_list<T> init_list) {
-			ptrdiff_t i = 0;
-			for (auto it : init_list)
-				((T*)this)[i++] = it;
-		}
+		__HOST_DEVICE__ mat(std::initializer_list<T> _List) : array_type(_List) {}
 
 		__HOST_DEVICE__ mat(const mat<T, 3, 3>& _Right) :array_type(_Right) { }
 

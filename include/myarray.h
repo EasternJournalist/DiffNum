@@ -1,12 +1,14 @@
 #pragma once
 #include <Common.h>
 #include <Args.h>
+#include <initializer_list>
 
 namespace Common {
 
 
 	template<class T, ptrdiff_t N>
 	struct array<T, N> {
+		static_assert(N > 0, "Shapes of array should be greater than 0.");
 		using array_type = array<T, N>;
 
 		static const ptrdiff_t _Dims = 1;
@@ -20,6 +22,13 @@ namespace Common {
 		__HOST_DEVICE__ array(const array_type& _Right) {
 			for (ptrdiff_t i = 0; i < N; i++)
 				_Elems[i] = _Right._Elems[i];
+		}
+
+		__HOST_DEVICE__ array(const std::initializer_list<T> _List) {
+			assert(_List.size() <= _Size);
+			T* p = (T*)this;
+			for (const T& it : _List)
+				*(p++) = it;
 		}
 
 		__HOST_DEVICE__ const T& operator[](const ptrdiff_t _Pos) const {
@@ -65,6 +74,8 @@ namespace Common {
 
 	template<class T, ptrdiff_t _FirstN, ptrdiff_t... _RestNs>
 	struct array<T, _FirstN, _RestNs...> {
+		static_assert(_FirstN > 0, "Shapes of array should be greater than 0.");
+
 		using array_type = array<T, _FirstN, _RestNs...>;
 		using d_array_type = array<T, _RestNs...>;
 
@@ -80,8 +91,15 @@ namespace Common {
 		__HOST_DEVICE__ array() {}
 
 		__HOST_DEVICE__ array(const array_type& _Right) {
-			for (ptrdiff_t i = 0; i < size(); i++)
+			for (ptrdiff_t i = 0; i < _Size; i++)
 				((T*)this)[i] = ((T*)&_Right)[i];
+		}
+		
+		__HOST_DEVICE__ array(const std::initializer_list<T> _List) {
+			assert(_List.size() <= _Size);
+			T* p = (T*)this;
+			for (const T& it : _List)
+				*(p++) = it;
 		}
 
 		__HOST_DEVICE__ const d_array_type& operator[](const ptrdiff_t _Pos) const {

@@ -1,10 +1,11 @@
 #include <stdio.h>
 #include <iostream>
 #include <DiffNum.h>
-#include <cuda_test.h>
 #include <vector>
+#include <Vec.h>
 
 using namespace DiffNum;
+using namespace Common;
 
 __global__ void kernel(ddouble<2> a, ddouble<2> b, ddouble<2>* c) {
     *c = a + Math<ddouble<2>>::Sin(b);
