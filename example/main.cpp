@@ -39,7 +39,7 @@ int main()
     // t1.einsum<1, 2, 3>(t1);
     // Example 2. Vec v1 v2. v1[2] is the variable. q = v1 dot v2.
     vec<ddouble<0>, 3> v1, v2; 
-
+    
     v1[0] = 8.7;
     v1[1] = 4.3;
     v1[2] = 7.;

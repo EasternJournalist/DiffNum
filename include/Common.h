@@ -1,8 +1,8 @@
 #pragma once
 
-#ifndef DIFFNUM_NO_CUDA
+
 #define DIFFNUM_WITH_CUDA
-#endif
+
 #ifdef DIFFNUM_WITH_CUDA
 #include <cuda_runtime.h>
 #define __HOST_DEVICE__ __host__ __device__

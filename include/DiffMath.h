@@ -22,47 +22,47 @@ namespace DiffNum {
 	template<>
 	class Math<float> {
 	public:
-		__HOST_DEVICE__ inline static bool IsNaN(const float& _X) { return isnan(_X); }
+		__HOST_DEVICE__ __forceinline static bool IsNaN(const float& _X) { return isnan(_X); }
 
-		__HOST_DEVICE__ inline static float Sqrt(const float& _X) { return sqrt(_X); }
-		__HOST_DEVICE__ inline static float Sin(const float& _X) { return sin(_X); }
-		__HOST_DEVICE__ inline static float Cos(const float& _X) { return cos(_X); }
-		__HOST_DEVICE__ inline static float Tan(const float& _X) { return tan(_X); }
-		__HOST_DEVICE__ inline static float Asin(const float& _X) { return asin(_X); }
-		__HOST_DEVICE__ inline static float Acos(const float& _X) { return acos(_X); }
-		__HOST_DEVICE__ inline static float Atan(const float& _X) { return atan(_X); }
-		__HOST_DEVICE__ inline static float Sinh(const float& _X) { return sinh(_X); }
-		__HOST_DEVICE__ inline static float Cosh(const float& _X) { return cosh(_X); }
-		__HOST_DEVICE__ inline static float Tanh(const float& _X) { return tanh(_X); }
-		__HOST_DEVICE__ inline static float Asinh(const float& _X) { return asinh(_X); }
-		__HOST_DEVICE__ inline static float Acosh(const float& _X) { return acosh(_X); }
-		__HOST_DEVICE__ inline static float Atanh(const float& _X) { return atanh(_X); }
-		__HOST_DEVICE__ inline static float Exp(const float& _X) { return exp(_X); }
-		__HOST_DEVICE__ inline static float Log(const float& _X) { return log(_X); }
-		__HOST_DEVICE__ inline static float Pow(const float& _X, const float& _Y) { return pow(_X, _Y); }
+		__HOST_DEVICE__ __forceinline static float Sqrt(const float& _X) { return sqrt(_X); }
+		__HOST_DEVICE__ __forceinline static float Sin(const float& _X) { return sin(_X); }
+		__HOST_DEVICE__ __forceinline static float Cos(const float& _X) { return cos(_X); }
+		__HOST_DEVICE__ __forceinline static float Tan(const float& _X) { return tan(_X); }
+		__HOST_DEVICE__ __forceinline static float Asin(const float& _X) { return asin(_X); }
+		__HOST_DEVICE__ __forceinline static float Acos(const float& _X) { return acos(_X); }
+		__HOST_DEVICE__ __forceinline static float Atan(const float& _X) { return atan(_X); }
+		__HOST_DEVICE__ __forceinline static float Sinh(const float& _X) { return sinh(_X); }
+		__HOST_DEVICE__ __forceinline static float Cosh(const float& _X) { return cosh(_X); }
+		__HOST_DEVICE__ __forceinline static float Tanh(const float& _X) { return tanh(_X); }
+		__HOST_DEVICE__ __forceinline static float Asinh(const float& _X) { return asinh(_X); }
+		__HOST_DEVICE__ __forceinline static float Acosh(const float& _X) { return acosh(_X); }
+		__HOST_DEVICE__ __forceinline static float Atanh(const float& _X) { return atanh(_X); }
+		__HOST_DEVICE__ __forceinline static float Exp(const float& _X) { return exp(_X); }
+		__HOST_DEVICE__ __forceinline static float Log(const float& _X) { return log(_X); }
+		__HOST_DEVICE__ __forceinline static float Pow(const float& _X, const float& _Y) { return pow(_X, _Y); }
 	};
 
 	template<>
 	class Math<double> {
 	public:
-		__HOST_DEVICE__ inline static bool IsNaN(const double& _X) { return isnan(_X); }
+		__HOST_DEVICE__ __forceinline static bool IsNaN(const double& _X) { return isnan(_X); }
 
-		__HOST_DEVICE__ inline static double Sqrt(const double& _X) { return sqrt(_X); }
-		__HOST_DEVICE__ inline static double Sin(const double& _X) { return sin(_X); }
-		__HOST_DEVICE__ inline static double Cos(const double& _X) { return cos(_X); }
-		__HOST_DEVICE__ inline static double Tan(const double& _X) { return tan(_X); }
-		__HOST_DEVICE__ inline static double Asin(const double& _X) { return asin(_X); }
-		__HOST_DEVICE__ inline static double Acos(const double& _X) { return acos(_X); }
-		__HOST_DEVICE__ inline static double Atan(const double& _X) { return atan(_X); }
-		__HOST_DEVICE__ inline static double Sinh(const double& _X) { return sinh(_X); }
-		__HOST_DEVICE__ inline static double Cosh(const double& _X) { return cosh(_X); }
-		__HOST_DEVICE__ inline static double Tanh(const double& _X) { return tanh(_X); }
-		__HOST_DEVICE__ inline static double Asinh(const double& _X) { return asinh(_X); }
-		__HOST_DEVICE__ inline static double Acosh(const double& _X) { return acosh(_X); }
-		__HOST_DEVICE__ inline static double Atanh(const double& _X) { return atanh(_X); }
-		__HOST_DEVICE__ inline static double Exp(const double& _X) { return exp(_X); }
-		__HOST_DEVICE__ inline static double Log(const double& _X) { return log(_X); }
-		__HOST_DEVICE__ inline static double Pow(const double& _X, const double& _Y) { return pow(_X, _Y); }
+		__HOST_DEVICE__ __forceinline static double Sqrt(const double& _X) { return sqrt(_X); }
+		__HOST_DEVICE__ __forceinline static double Sin(const double& _X) { return sin(_X); }
+		__HOST_DEVICE__ __forceinline static double Cos(const double& _X) { return cos(_X); }
+		__HOST_DEVICE__ __forceinline static double Tan(const double& _X) { return tan(_X); }
+		__HOST_DEVICE__ __forceinline static double Asin(const double& _X) { return asin(_X); }
+		__HOST_DEVICE__ __forceinline static double Acos(const double& _X) { return acos(_X); }
+		__HOST_DEVICE__ __forceinline static double Atan(const double& _X) { return atan(_X); }
+		__HOST_DEVICE__ __forceinline static double Sinh(const double& _X) { return sinh(_X); }
+		__HOST_DEVICE__ __forceinline static double Cosh(const double& _X) { return cosh(_X); }
+		__HOST_DEVICE__ __forceinline static double Tanh(const double& _X) { return tanh(_X); }
+		__HOST_DEVICE__ __forceinline static double Asinh(const double& _X) { return asinh(_X); }
+		__HOST_DEVICE__ __forceinline static double Acosh(const double& _X) { return acosh(_X); }
+		__HOST_DEVICE__ __forceinline static double Atanh(const double& _X) { return atanh(_X); }
+		__HOST_DEVICE__ __forceinline static double Exp(const double& _X) { return exp(_X); }
+		__HOST_DEVICE__ __forceinline static double Log(const double& _X) { return log(_X); }
+		__HOST_DEVICE__ __forceinline static double Pow(const double& _X, const double& _Y) { return pow(_X, _Y); }
 	};
 
 

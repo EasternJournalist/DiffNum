@@ -3,18 +3,6 @@
 #include <Common.h>
 
 namespace Common {
-	template<ptrdiff_t... _Args>
-	struct LenArg;
-
-	template<ptrdiff_t _First, ptrdiff_t... _Rest>
-	struct LenArg<_First, _Rest...> {
-		static const ptrdiff_t value = LenArg<_Rest...>::value + 1;
-	};
-
-	template<ptrdiff_t _Last>
-	struct LenArg<_Last> {
-		static const ptrdiff_t value = 1;
-	};
 
 	template<ptrdiff_t... _Args>
 	struct MaxArg;
@@ -52,14 +40,25 @@ namespace Common {
 
 
 	template<ptrdiff_t _Last>
-	void ArgtoArray(ptrdiff_t* _Arr) {
+	__forceinline void TArgtoArray(ptrdiff_t* _Arr) {
 		*_Arr = _Last;
 	};
 
 	template<ptrdiff_t _First, ptrdiff_t... _Rest>
-	void ArgtoArray(ptrdiff_t* _Arr) {
+	__forceinline void TArgtoArray(ptrdiff_t* _Arr) {
 		*_Arr = _First;
-		ArgtoArray<_Rest...>(_Arr + 1);
+		TArgtoArray<_Rest...>(_Arr + 1);
+	};
+	
+	template<class _Ty>
+	__HOST_DEVICE__ __forceinline void FArgtoArray(_Ty* _Arr, const _Ty _Last) {
+		*_Arr = _Last;
 	};
 
+	template<class _Ty, class... _Args>
+	__HOST_DEVICE__ __forceinline void FArgtoArray(_Ty* _Arr, const _Ty _First, const _Args... _Rest) {
+		*_Arr = _First;
+		FArgtoArray(_Arr + 1, _Rest...);
+	};
+	
 }

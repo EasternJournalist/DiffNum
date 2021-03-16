@@ -33,6 +33,12 @@ namespace Common
 
 		__HOST_DEVICE__ vec(const std::initializer_list<T> _List) : array_type(_List) {}
 
+		template<class... _Args>
+		__HOST_DEVICE__ vec(const _Args... args) {
+			static_assert(sizeof...(_Args) == N, "Number of parameters must be the same with the length of vec.");
+			FArgtoArray((T*)this, args...);
+		}
+
 		__HOST_DEVICE__ vec(const T _Val) { fill(_Val); }
 
 		template<ptrdiff_t N1, ptrdiff_t N2>
@@ -113,7 +119,7 @@ namespace Common
 				this->_Elems[i] += v2[i];
 			return *this;
 		}
-		__HOST_DEVICE__ const bool operator==(const vec<T, N>& v2) {
+		__HOST_DEVICE__ bool operator==(const vec<T, N>& v2) {
 			for (ptrdiff_t i = 0; i < N; i++) {
 				if (this->_Elems[i] != v2[i])
 					return false;
